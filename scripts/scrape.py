@@ -218,7 +218,11 @@ def make_draft(p, use_ai=True):
     ai = gemini(prompt + "\n\n[원문]\n" + t[:7000]) if use_ai else None
     if ai:
         ai = re.sub(r"^[#*\-\s]+", "", ai).strip()
-        return ai, "ai"
+        src = t.replace(" ", "")
+        bad = [n for n in set(re.findall(r"\d[\d,]*\.?\d*", ai)) if n.rstrip(",.") not in src]
+        if not bad:
+            return ai, "ai"
+        print("draft rejected, numbers not in source:", p["id"], bad[:5])
     return (rule, "rule") if rule else (None, None)
 
 
@@ -248,7 +252,8 @@ def main():
     new = len({p["id"] for p in got} - set(byid))
     for p in got:
         byid[p["id"]] = p  # newer scrape wins (edited posts)
-    posts = sorted(byid.values(), key=lambda p: p["id"], reverse=True)[:MAX_KEEP]
+    posts = sorted((p for p in byid.values() if not p["title"].startswith("[샘플]")),
+                   key=lambda p: p["id"], reverse=True)[:MAX_KEEP]
     prev = {p["id"]: p for p in old}
     has_key = bool(os.environ.get("GEMINI_API_KEY"))
     budget = 6  # AI calls per run
