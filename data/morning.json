@@ -1,169 +1,228 @@
 {
  "kind": "morning",
- "sample": true,
- "generated": "2026-11-25T15:05+09:00",
+ "generated": "2026-11-26T11:55+09:00",
  "indices": [
   {
    "name": "나스닥",
-   "ticker": "",
-   "price": 20000.0,
-   "chg": 1.0,
-   "date": "2026-11-24"
+   "ticker": "^IXIC",
+   "price": 23585.8,
+   "chg": -0.62,
+   "date": "2026-11-25"
   },
   {
    "name": "S&P500",
-   "ticker": "",
-   "price": 6000.0,
-   "chg": 0.5,
-   "date": "2026-11-24"
+   "ticker": "^GSPC",
+   "price": 7182.78,
+   "chg": -0.25,
+   "date": "2026-11-25"
   },
   {
    "name": "필라델피아 반도체",
-   "ticker": "",
-   "price": 5000.0,
-   "chg": 2.0,
-   "date": "2026-11-24"
+   "ticker": "^SOX",
+   "price": 8774.86,
+   "chg": -0.65,
+   "date": "2026-11-25"
   }
  ],
  "macro": [
   {
    "name": "달러 인덱스",
-   "ticker": "",
-   "price": 100.0,
-   "chg": -0.2,
-   "date": "2026-11-24"
+   "ticker": "DX-Y.NYB",
+   "price": 103.74,
+   "chg": -0.07,
+   "date": "2026-11-25"
   },
   {
    "name": "금",
-   "ticker": "",
-   "price": 2500.0,
-   "chg": 0.4,
-   "date": "2026-11-24"
+   "ticker": "GC=F",
+   "price": 3627.4,
+   "chg": 1.84,
+   "date": "2026-11-25"
   },
   {
    "name": "WTI",
-   "ticker": "",
-   "price": 70.0,
-   "chg": -1.5,
-   "date": "2026-11-24"
+   "ticker": "CL=F",
+   "price": 83.88,
+   "chg": 2.23,
+   "date": "2026-11-25"
   }
  ],
  "sectors": [
   {
-   "name": "반도체(SMH)",
-   "ticker": "",
-   "price": 0,
-   "chg": 2.0,
-   "date": "2026-11-24"
+   "name": "소재",
+   "ticker": "XLB",
+   "price": 51.21,
+   "chg": 2.07,
+   "date": "2026-11-25"
   },
   {
-   "name": "기술",
-   "ticker": "",
-   "price": 0,
-   "chg": 1.2,
-   "date": "2026-11-24"
+   "name": "부동산",
+   "ticker": "XLRE",
+   "price": 43.86,
+   "chg": 0.92,
+   "date": "2026-11-25"
   },
   {
-   "name": "유틸리티",
-   "ticker": "",
-   "price": 0,
-   "chg": 0.8,
-   "date": "2026-11-24"
+   "name": "커뮤니케이션",
+   "ticker": "XLC",
+   "price": 105.38,
+   "chg": 0.89,
+   "date": "2026-11-25"
   },
   {
    "name": "산업재",
-   "ticker": "",
-   "price": 0,
-   "chg": 0.3,
-   "date": "2026-11-24"
-  },
-  {
-   "name": "금융",
-   "ticker": "",
-   "price": 0,
-   "chg": -0.2,
-   "date": "2026-11-24"
-  },
-  {
-   "name": "헬스케어",
-   "ticker": "",
-   "price": 0,
-   "chg": -0.6,
-   "date": "2026-11-24"
+   "ticker": "XLI",
+   "price": 162.95,
+   "chg": 0.83,
+   "date": "2026-11-25"
   },
   {
    "name": "에너지",
-   "ticker": "",
-   "price": 0,
-   "chg": -1.4,
-   "date": "2026-11-24"
+   "ticker": "XLE",
+   "price": 60.9,
+   "chg": 0.74,
+   "date": "2026-11-25"
+  },
+  {
+   "name": "금융",
+   "ticker": "XLF",
+   "price": 56.51,
+   "chg": 0.71,
+   "date": "2026-11-25"
+  },
+  {
+   "name": "유틸리티",
+   "ticker": "XLU",
+   "price": 43.61,
+   "chg": 0.48,
+   "date": "2026-11-25"
+  },
+  {
+   "name": "필수소비재",
+   "ticker": "XLP",
+   "price": 92.3,
+   "chg": 0.46,
+   "date": "2026-11-25"
+  },
+  {
+   "name": "경기소비재",
+   "ticker": "XLY",
+   "price": 117.49,
+   "chg": -0.2,
+   "date": "2026-11-25"
+  },
+  {
+   "name": "헬스케어",
+   "ticker": "XLV",
+   "price": 183.68,
+   "chg": -0.56,
+   "date": "2026-11-25"
+  },
+  {
+   "name": "기술",
+   "ticker": "XLK",
+   "price": 155.79,
+   "chg": -0.83,
+   "date": "2026-11-25"
+  },
+  {
+   "name": "반도체(SMH)",
+   "ticker": "SMH",
+   "price": 422.46,
+   "chg": -1.01,
+   "date": "2026-11-25"
   }
  ],
  "news": [
   {
-   "title": "[샘플] 반도체 관련 원인형 뉴스 제목",
-   "ko": null,
-   "link": "https://example.com",
    "source": "CNBC",
+   "title": "‘Your booth is waiting’: Denny’s welcomes Jensen Huang back as Nvidia CEO",
+   "link": "https://www.cnbc.com/2026/11/26/dennys-jensen-huang-nvidia.html",
+   "topic": "반도체",
+   "sources": [
+    "CNBC",
+    "CNBC 투자",
+    "MarketWatch",
+    "인베스팅닷컴"
+   ],
+   "move": -1.01,
+   "score": 9.01,
+   "verified": true,
+   "desc": "Denny's reaffirmed its longstanding ties with Jensen Huang following his return as Nvidia CEO, revealing that a plaque had been restored."
+  },
+  {
+   "source": "CNBC",
+   "title": "South Korea upgrades growth forecast, raises benchmark rates to highest in two years",
+   "link": "https://www.cnbc.com/2026/11/26/bok-rate-decision-korea-gdp-inflation.html",
+   "topic": "금리",
    "sources": [
     "CNBC",
     "MarketWatch",
-    "Yahoo Finance"
+    "인베스팅닷컴"
    ],
-   "topic": null,
-   "move": 2.0,
-   "score": 0,
+   "move": null,
+   "score": 6,
    "verified": true,
-   "desc": ""
+   "desc": "The central bank raised rates by 25 basis points to 3.25% for its final meeting of the year, in line with expectations from economists."
   },
   {
-   "title": "[샘플] 금리·지표 관련 뉴스 제목",
-   "ko": null,
-   "link": "https://example.com",
-   "source": "MarketWatch",
+   "source": "CNBC",
+   "title": "Where the market may be mispricing risk most: AI boom, volatility, high-yield bonds",
+   "link": "https://www.cnbc.com/2026/11/26/mispricing-risk-fund-managers-ai-volatility.html",
+   "topic": "AI",
    "sources": [
     "CNBC",
-    "MarketWatch"
+    "인베스팅닷컴"
    ],
-   "topic": null,
-   "move": null,
-   "score": 0,
+   "move": -1.01,
+   "score": 5.01,
    "verified": true,
-   "desc": ""
-  },
-  {
-   "title": "[샘플] 단독 보도 뉴스 제목",
-   "ko": null,
-   "link": "https://example.com",
-   "source": "Yahoo Finance",
-   "sources": [
-    "Yahoo Finance"
-   ],
-   "topic": null,
-   "move": -0.1,
-   "score": 0,
-   "verified": false,
-   "desc": ""
+   "desc": "The AI boom could trigger a recession, but data centers remain an attractive investment opportunity, a hedge fund manager said."
   }
  ],
  "alternates": [
   {
-   "title": "[샘플] 교체 후보 뉴스",
-   "ko": null,
-   "link": "https://example.com",
    "source": "CNBC",
+   "title": "Ukraine tells Putin to ‘stop complaining’ over oil refinery attacks as Russia promises retaliation",
+   "link": "https://www.cnbc.com/2026/11/25/ukraine-putin-russia-oil-refinery-attacks.html",
+   "topic": "에너지",
    "sources": [
     "CNBC"
    ],
-   "topic": null,
-   "move": null,
-   "score": 0,
+   "move": 0.74,
+   "score": 2.74,
    "verified": false,
-   "desc": ""
+   "desc": "Ukraine’s foreign minister told Putin to end the war if he wants Kyiv to stop attacking Russian refineries, after Putin said retaliation was “inevitable.”"
+  },
+  {
+   "source": "CNBC",
+   "title": "‘Ready for any storm’: UAE minister optimistic on economy as IMF lifts forecast",
+   "link": "https://www.cnbc.com/2026/11/25/uae-iran-war-economy-oil.html",
+   "topic": "금융",
+   "sources": [
+    "CNBC"
+   ],
+   "move": 0.71,
+   "score": 2.71,
+   "verified": false,
+   "desc": "The UAE is optimistic about achieving 7%-8% economic growth next year, banking on a \"different\" economic model."
+  },
+  {
+   "source": "CNBC",
+   "title": "Inside India newsletter: Roaring economy, foreign investors’ return and now record auto sales",
+   "link": "https://www.cnbc.com/2026/11/26/india-auto-slaes-economy-suzuki-hyundai-toyota.html",
+   "topic": "자동차·2차전지",
+   "sources": [
+    "CNBC"
+   ],
+   "move": -0.2,
+   "score": 2.2,
+   "verified": false,
+   "desc": "Automakers in India are poised to sell over 30 million vehicles in the financial year ending March 2027."
   }
  ],
- "news_total": 0,
+ "news_total": 53,
  "news_excluded": 0,
- "opinion": "간밤 미국은 나스닥 +1.00%로 강세 흐름이었습니다. 반도체 지수가 +2.00% 움직인 만큼 오늘 삼성전자·SK하이닉스 시초가에 우호적으로 작용할 가능성이 있습니다. 미국 강세 업종(반도체(SMH), 기술, 유틸리티)과 연결되는 국내 반도체(삼성전자·SK하이닉스), IT·소프트웨어, 전력기기·유틸리티 쪽 관심이 유효해 보입니다. 반면 정유·에너지, 바이오·헬스케어, 은행·증권 업종은 보수적으로 접근하는 게 좋겠습니다.",
+ "opinion": "간밤 미국은 나스닥 -0.62%로 약세 흐름이었습니다. 반도체 지수가 -0.65% 움직인 만큼 오늘 삼성전자·SK하이닉스 시초가에 부담으로 작용할 가능성이 있습니다. 미국 강세 업종(소재, 부동산, 커뮤니케이션)과 연결되는 국내 화학·철강, 리츠·건설, 인터넷·게임 쪽 관심이 유효해 보입니다. 반면 반도체(삼성전자·SK하이닉스), IT·소프트웨어, 바이오·헬스케어 업종은 보수적으로 접근하는 게 좋겠습니다.",
  "ai": false
 }
