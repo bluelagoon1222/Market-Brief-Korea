@@ -162,30 +162,53 @@ def gemini(prompt):
     key = os.environ.get("GEMINI_API_KEY")
     if not key:
         return None
-    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
-    try:
-        r = requests.post(f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}",
-                          json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=60)
-        return r.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
-    except Exception as e:
-        print("gemini fail", e)
-        return None
+    models = [os.environ.get("GEMINI_MODEL")] if os.environ.get("GEMINI_MODEL") else \
+        ["gemini-flash-latest", "gemini-3.5-flash", "gemini-2.5-flash"]
+    for model in models:
+        try:
+            r = requests.post(f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}",
+                              json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=90)
+            j = r.json()
+            if "candidates" in j:
+                return j["candidates"][0]["content"]["parts"][0]["text"].strip()
+            print("gemini", model, r.status_code, str(j)[:200])
+        except Exception as e:
+            print("gemini fail", model, e)
+    return None
 
 
-def make_draft(p):
+PROMPT_US = """너는 한국 증권사 PB다. 아래는 미래에셋증권 리서치의 미국 증시 브리핑 원문이다.
+이를 분석해 고객 카톡용 '오늘의 관전포인트'를 4~5문장으로 써라.
+순서: (1) 간밤 미국 시장을 움직인 핵심 원인 1~2개와 그 의미 (2) 그 원인이 오늘 한국 증시에 미칠 영향
+(3) 주목할 국내 업종·대표주와 조심할 업종 (4) 오늘 확인할 변수.
+규칙: 존댓말, 원문에 없는 숫자·사실은 쓰지 말 것, 숫자를 쓰면 원문 그대로, 과장·단정·매수 권유 표현 금지,
+제목·머리표·이모지 없이 문장만 출력."""
+
+PROMPT_KR = """너는 한국 증권사 PB다. 아래는 미래에셋증권 리서치의 시황 원문이다(장중 또는 장 마감 후 글일 수 있다).
+이를 분석해 고객 카톡용 '투자 체크포인트'를 3~4문장으로 써라.
+순서: (1) 시장이 움직인 핵심 원인과 그 의미 (2) 강했던·약했던 업종이 주는 시사점 (3) 앞으로 확인할 변수나 대응 관점.
+규칙: 존댓말, 원문에 없는 숫자·사실은 쓰지 말 것, 숫자를 쓰면 원문 그대로, '어제·마감' 같은 시점 단정은 원문에 있을 때만,
+과장·단정·매수 권유 표현 금지, 제목·머리표·이모지 없이 문장만 출력."""
+
+
+def make_draft(p, use_ai=True):
+    """returns (draft, source) ; source = 'ai' | 'rule' | None"""
     t, title = p["text"], p["title"]
     if "글로벌 마켓 브리핑" in title:
-        kind, rule = "관전포인트", draft_us(t)
+        prompt, rule = PROMPT_US, draft_us(t)
     elif "마켓 클로징" in title:
-        kind, rule = "한줄평", draft_kr(t, True)
+        prompt, rule = PROMPT_KR, draft_kr(t, True)
     elif "마켓 뷰" in title:
-        kind, rule = "한줄평", draft_kr(t, False)
+        prompt, rule = PROMPT_KR, draft_kr(t, False)
+    elif p.get("cat") in ("한국", "중국", "한국·중국", "일본·대만", "미국") and len(t) >= 300:
+        prompt, rule = PROMPT_KR, None
     else:
-        return None
-    ai = gemini("너는 한국 증권사 PB다. 아래 리서치 시황을 읽고 고객 카톡용 "
-                + ("'오늘의 관전포인트'(오늘 국내 증시에서 볼 업종·대표주)" if kind == "관전포인트" else "'오늘의 시장 한 줄 평'(오늘 움직임 정리)")
-                + "를 3~4문장, 존댓말로 써. 원문에 없는 숫자는 쓰지 말고, 과장·확정 표현 금지. 문장만 답해.\n\n" + t[:6000])
-    return ai or rule
+        return None, None
+    ai = gemini(prompt + "\n\n[원문]\n" + t[:7000]) if use_ai else None
+    if ai:
+        ai = re.sub(r"^[#*\-\s]+", "", ai).strip()
+        return ai, "ai"
+    return (rule, "rule") if rule else (None, None)
 
 
 def fetch(before=None):
@@ -215,14 +238,19 @@ def main():
     for p in got:
         byid[p["id"]] = p  # newer scrape wins (edited posts)
     posts = sorted(byid.values(), key=lambda p: p["id"], reverse=True)[:MAX_KEEP]
-    oldd = {p["id"]: p.get("draft") for p in old}
-    budget = 6
+    prev = {p["id"]: p for p in old}
+    has_key = bool(os.environ.get("GEMINI_API_KEY"))
+    budget = 8  # AI calls per run
     for p in posts:
-        if oldd.get(p["id"]):
-            p["draft"] = oldd[p["id"]]
-        elif budget and "draft" not in p:
-            p["draft"] = make_draft(p)
-            budget -= 1 if os.environ.get("GEMINI_API_KEY") and p["draft"] else 0
+        o = prev.get(p["id"], {})
+        if o.get("draft_src") == "ai" or (o.get("draft_src") and not has_key):
+            p["draft"], p["draft_src"] = o["draft"], o["draft_src"]
+            continue
+        use_ai = has_key and budget > 0
+        d, src = make_draft(p, use_ai)
+        if use_ai and src in ("ai", "rule"):
+            budget -= 1
+        p["draft"], p["draft_src"] = d, src
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(dict(channel=CHANNEL, updated=dt.datetime.now(KST).isoformat(timespec="minutes"),
                    posts=posts), open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
