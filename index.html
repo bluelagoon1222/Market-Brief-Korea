@@ -3,44 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DAILY BRIEF CHECK · 미래에셋 시황 피드</title>
+<title>미래에셋 텔레그램 시황 CHECK</title>
 <style>
 :root{--bg:#f4f5f7;--card:#fff;--ink:#16191f;--sub:#6b7280;--line:#e5e7eb;--navy:#043b72;--acc:#f58220}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:15px}
-header{background:var(--navy);color:#fff;padding:14px 16px}header h1{margin:0;font-size:18px}header p{margin:4px 0 0;font-size:12px;opacity:.85}header a{color:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:1rem}
+html{font-size:17px}@media(min-width:768px){html{font-size:19px}}@media(min-width:1200px){html{font-size:20px}}
+header{max-width:900px;margin:0 auto;padding:22px 16px 18px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px}
+.hwrap{background:var(--navy);border-bottom:4px solid var(--acc)}
+.top>*{max-width:900px;margin-left:auto;margin-right:auto}
+header h1{margin:0;font-size:30px;font-weight:800;color:#fff;display:flex;align-items:center;gap:10px;flex-wrap:wrap;letter-spacing:-.5px;line-height:1.2}
+header h1 small{display:block;flex-basis:100%;font-size:15px;font-weight:400;color:#c9d6e8;letter-spacing:0;margin-top:4px}
+header h1 .ic{width:38px;height:38px;flex:none}
+header .hub{font-size:15px;color:#fff;font-weight:700;text-decoration:none;border:1px solid rgba(255,255,255,.7);border-radius:16px;padding:5px 12px}
+@media(max-width:600px){header{padding:16px 14px 12px}header h1{font-size:24px}header h1 .ic{width:32px;height:32px}header h1 small{font-size:14px}}
 .top{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:8px 12px}
-.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}.chips button{flex:none;border:1px solid var(--line);background:#fff;border-radius:16px;padding:6px 12px;font-size:13px;cursor:pointer}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}.chips button{flex:none;border:1px solid var(--line);background:#fff;border-radius:16px;padding:7px 14px;font-size:.88rem;cursor:pointer}
 .chips button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-.stat{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--sub);margin-top:6px}
-.stat button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px;font-size:13px;cursor:pointer}
+.stat{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--sub);margin-top:6px}
+.stat button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;font-size:.88rem;cursor:pointer}
 .newbar{display:none;background:var(--acc);color:#fff;text-align:center;padding:9px;border-radius:10px;margin:0 0 14px;font-weight:700;cursor:pointer}
-main{max-width:760px;margin:0 auto;padding:14px 12px 40px}
+main{max-width:900px;margin:0 auto;padding:14px 12px 40px}
 .card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:20px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
-.meta{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--sub);margin-bottom:6px}
-.tag{font-size:11px;padding:2px 7px;border-radius:6px;background:#eef2ff;color:#3730a3;font-weight:700}
+.meta{display:flex;gap:8px;align-items:center;font-size:.82rem;color:var(--sub);margin-bottom:6px}
+.tag{font-size:.75rem;padding:2px 7px;border-radius:6px;background:#eef2ff;color:#3730a3;font-weight:700}
 .tag.미국{background:#fdecec;color:#b42318}.tag.한국·중국,.tag.한국{background:#e8f1fd;color:#1d4ed8}.tag.중국{background:#fff1e6;color:#b45309}
-.t{font-weight:700;font-size:16px;line-height:1.4}
-.body{white-space:pre-wrap;line-height:1.6;margin-top:8px;font-size:14px;max-height:13.5em;overflow:hidden;position:relative;word-break:break-word}
+.t{font-weight:700;font-size:1.15rem;line-height:1.4}
+.body{white-space:pre-wrap;line-height:1.7;margin-top:10px;font-size:1rem;max-height:14em;overflow:hidden;position:relative;word-break:break-word}
 .body.open{max-height:none}.body:not(.open):after{content:"";position:absolute;left:0;right:0;bottom:0;height:3em;background:linear-gradient(transparent,#fff)}
-.more{border:0;background:none;color:var(--navy);font-weight:700;padding:6px 0;cursor:pointer;font-size:13px}
-.doc{font-size:13px;margin-top:6px}.doc a{color:var(--navy)}
+.more{border:0;background:none;color:var(--navy);font-weight:700;padding:8px 0;cursor:pointer;font-size:.9rem}
+.doc{font-size:.9rem;margin-top:6px}.doc a{color:var(--navy)}
 .photo{max-width:100%;border-radius:8px;margin-top:8px}
-.acts{display:flex;gap:8px;margin-top:10px}.acts button{flex:1;padding:11px 4px;border-radius:10px;border:0;font-weight:700;font-size:14px;cursor:pointer}
+.acts{display:flex;gap:8px;margin-top:12px}.acts button{flex:1;padding:12px 4px;border-radius:10px;border:0;font-weight:700;font-size:.92rem;cursor:pointer;line-height:1.3}.acts small{display:block;font-weight:400;font-size:.72rem;opacity:.8}.a3{background:var(--navy);color:#fff}
+.op{white-space:pre-line;background:#fff8f1;border:1px solid #fde2c6;border-radius:10px;padding:12px 14px;line-height:1.7;margin-top:12px}.op b{display:block;margin-bottom:6px}
 .a1{background:#eef0f3}.a2{background:#fee500;color:#191919}
 dialog{width:min(640px,94vw);border:0;border-radius:14px;padding:16px}dialog::backdrop{background:rgba(0,0,0,.45)}
-dialog textarea{width:100%;height:170px;font-size:15px;font-family:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;line-height:1.5}
-dialog select{width:100%;padding:8px;border-radius:8px;border:1px solid var(--line);font-size:14px;margin:6px 0}
-.row{display:flex;gap:8px;margin-top:10px}.row button{flex:1;padding:11px;border-radius:8px;border:1px solid var(--line);font-weight:700;font-size:14px}
-pre.prev{white-space:pre-wrap;font-family:inherit;font-size:13px;background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:10px;max-height:220px;overflow:auto}
-.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#111;color:#fff;padding:10px 16px;border-radius:20px;font-size:13px;display:none;z-index:20}
+dialog textarea{width:100%;height:200px;font-size:1rem;font-family:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;line-height:1.5}
+dialog select{width:100%;padding:8px;border-radius:8px;border:1px solid var(--line);font-size:.95rem;margin:6px 0}
+.row{display:flex;gap:8px;margin-top:10px}.row button{flex:1;padding:11px;border-radius:8px;border:1px solid var(--line);font-weight:700;font-size:.95rem}
+pre.prev{white-space:pre-wrap;font-family:inherit;font-size:.85rem;background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:10px;max-height:220px;overflow:auto}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#111;color:#fff;padding:10px 16px;border-radius:20px;font-size:.9rem;display:none;z-index:20}
 .empty{text-align:center;color:var(--sub);padding:40px 0}
 </style>
 </head>
 <body>
-<header>
-  <h1>📈 DAILY BRIEF CHECK</h1>
-  <p>미래에셋증권 시황 채널(김석환·김주연) 최신 글 모음 → 의견 붙여 카톡 공유 · <a href="https://bluelagoon1222.github.io/">SJ Market Desk</a></p>
-</header>
+<div class="hwrap"><header>
+  <h1><svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><path d="M43 7 4.5 22.2c-1.6.6-1.5 2.9.1 3.4l9.6 3 3.6 11.3c.5 1.5 2.4 1.9 3.4.8l5.4-5.5 10 7.4c1.2.9 3 .2 3.3-1.3L46 9.6C46.4 7.8 44.6 6.3 43 7Z" fill="#fff"/><path d="m18 30 20-15-16 18.5-.8 6.5z" fill="#9fc3ee"/></svg>미래에셋 텔레그램 시황 CHECK<small>[미래에셋증권 시황] 김석환·김주연 채널 실시간 모음 → 의견 붙여 카톡 공유</small></h1>
+  <a class="hub" href="https://bluelagoon1222.github.io/">SJ Market Desk ↗</a>
+</header></div>
 <div class="top">
   <div class="chips" id="chips"></div>
   <div class="stat"><span id="upd">불러오는 중…</span><button onclick="load(true)">🔄 새로고침</button></div>
@@ -51,7 +60,7 @@ pre.prev{white-space:pre-wrap;font-family:inherit;font-size:13px;background:#f8f
 </main>
 
 <dialog id="dlg">
-  <b>의견 붙여 공유</b>
+  <b>3️⃣ 의견 직접 작성</b>
   <select id="opTitle">
     <option>🔎 오늘의 관전포인트!</option>
     <option>✍️ 오늘의 시장 한 줄 평!</option>
@@ -84,10 +93,11 @@ function render(){
     <div class="meta"><span class="tag ${esc(p.cat)}">${esc(p.cat)}</span><span>${when(p.time)}</span><a href="${esc(p.url)}" target="_blank" rel="noopener" style="margin-left:auto;color:#6b7280">텔레그램 ↗</a></div>
     <div class="t">${esc(p.title)}</div>
     ${p.photo?`<img class="photo" src="${esc(p.photo)}" loading="lazy" alt="">`:''}
-    <div class="body" id="b${p.id}">${esc(p.text.split('\n').slice(1).join('\n').trim())}</div>
+    <div class="body" id="b${p.id}">${esc(deco(p.text).split('\n').slice(1).join('\n').trim())}</div>
     <button class="more" onclick="tog(${p.id},this)">펼치기 ▾</button>
     ${p.docs.map(d=>`<div class="doc">📎 <a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(d.name)}</a></div>`).join('')}
-    <div class="acts"><button class="a1" onclick="share(${p.id},'')">원문 공유</button><button class="a2" onclick="openOp(${p.id})">의견 붙여 공유</button></div>
+    ${p.draft?`<div class="op"><b>${opT(p)}</b>${esc(brk(p.draft))}</div>`:''}
+    <div class="acts"><button class="a1" onclick="share(${p.id},1)">1️⃣ 시황만<small>원문 그대로</small></button>${p.draft?`<button class="a2" onclick="share(${p.id},2)">2️⃣ 시황+의견<small>위 초안 포함</small></button>`:''}<button class="a3" onclick="openOp(${p.id})">3️⃣ 직접 작성<small>수정·새로 쓰기</small></button></div>
   </div>`).join(''):'<div class="empty">글이 없습니다.</div>';
 }
 function tog(id,b){const e=$('#b'+id);e.classList.toggle('open');b.textContent=e.classList.contains('open')?'접기 ▴':'펼치기 ▾';}
@@ -102,8 +112,27 @@ async function load(manual){
 }
 function showNew(){if(!PENDING)return;ALL=PENDING;SHOWN=ALL[0].id;PENDING=null;$('#newbar').style.display='none';render();scrollTo(0,0);}
 
+const NUM=/([+-]\d[\d,]*(?:\.\d+)?)\s*(%|bp|p\b|원|달러)/g;
+const HEAD=[[/^\*?\s*Key Indices/i,'📊'],[/^\*?\s*Key Takeaways/i,'💡'],[/^\*?\s*Key Stocks/i,'⭐'],[/^\*?\s*FICC/i,'💱'],
+  [/^#\s*국내/,'🇰🇷'],[/^#\s*중국|^#\s*홍콩/,'🇨🇳'],[/^#\s*미국/,'🇺🇸'],[/^#\s*일본/,'🇯🇵'],[/^#\s*주목|이벤트/,'📅'],[/^▶️?\s*Summary/i,'📝'],[/^▶️?\s*Up\s*&\s*Down/i,'↕️'],[/^▶️?\s*테마/,'🔥'],
+  [/^\d\.\s*상승/,'🔺'],[/^\d\.\s*하락/,'🔽'],[/^\d\.\s*채권/,'🏦'],[/^\d\.\s*외환/,'💵'],[/^\d\.\s*상품/,'🛢️'],[/^\d\.\s*미국증시 주요지수/,'🇺🇸'],[/^\d\.\s*S&P500 업종/,'🏭']];
+function deco(text){
+  const L=text.split('\n').map(l=>l.replace(/\s+$/,''));
+  return L.map((l,i)=>{
+    const s=l.trim();if(!s)return '';
+    if(i===0)return '📌 '+s;
+    for(const [re,ic] of HEAD)if(re.test(s))return (i>1?'\n':'')+ic+' '+s.replace(/^\*\s*|^#\s*|^▶️?\s*|^\d\.\s*/,'');
+    const nums=[...s.matchAll(NUM)];
+    if(nums.length===1&&!/^https?:/.test(s)){const ic=nums[0][1][0]==='+'?'🔺':'🔽';
+      return /^[-·•]\s*/.test(s)?s.replace(/^[-·•]\s*/,ic+' '):ic+' '+s;}
+    if(nums.length>1)return s.replace(/^[-·•]\s*/,'').replace(NUM,(m,v,u)=>(v[0]==='+'?'🔺':'🔽')+v+(u==='p'?'p':u));
+    if(/^-(?!\d)/.test(s)||/^-\d+(월|분기|일)/.test(s))return '▪️ '+s.replace(/^-\s*/,'');
+    if(/^·\s*/.test(s))return '▫️ '+s.replace(/^·\s*/,'');
+    return s;
+  }).join('\n').replace(/\n{3,}/g,'\n\n');
+}
 function build(p,op,title){
-  let t=p.text.trim();
+  let t=deco(p.text.trim());
   if(op&&op.trim())t+=`\n\n━━━━━━━━━━━━━━\n\n${title}\n\n${brk(op)}`;
   return t+`\n\n${SRC}`;
 }
@@ -112,9 +141,10 @@ async function send(text){
   try{await navigator.clipboard.writeText(text);}catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}
   toast('복사했어요. 카톡 대화방에 붙여넣기 하세요');return true;
 }
-function share(id){const p=ALL.find(x=>x.id===id);send(build(p,'',''));}
+function share(id,mode){const p=ALL.find(x=>x.id===id);send(build(p,mode===2?p.draft:'',opT(p)));}
+function opT(p){return /글로벌 마켓 브리핑/.test(p.title)||p.cat==='미국'?'🔎 오늘의 관전포인트!':/한국|중국/.test(p.cat)?'✍️ 오늘의 시장 한 줄 평!':'💬 코멘트';}
 const dlg=$('#dlg');
-function openOp(id){CUR=ALL.find(x=>x.id===id);$('#opTitle').selectedIndex=CUR.cat==='미국'?0:/한국|중국/.test(CUR.cat)?1:2;$('#myOp').value='';upd();dlg.showModal();}
+function openOp(id){CUR=ALL.find(x=>x.id===id);$('#opTitle').value=opT(CUR);$('#myOp').value=CUR.draft||'';upd();dlg.showModal();}
 function upd(){if(CUR)$('#prev').textContent=build(CUR,$('#myOp').value,$('#opTitle').value);}
 $('#myOp').addEventListener('input',upd);$('#opTitle').addEventListener('change',upd);
 async function shareOp(){if(!$('#myOp').value.trim()){toast('의견을 입력해 주세요');return;}if(await send(build(CUR,$('#myOp').value,$('#opTitle').value)))dlg.close();}
