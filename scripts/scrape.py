@@ -158,22 +158,33 @@ def draft_kr(t, closing):
     return " ".join(out) or None
 
 
+AI_DEADLINE = [None]
+
+
 def gemini(prompt):
     key = os.environ.get("GEMINI_API_KEY")
     if not key:
+        return None
+    import time
+    if AI_DEADLINE[0] is None:
+        AI_DEADLINE[0] = time.time() + 240  # max 4 min of AI work per run
+    if time.time() > AI_DEADLINE[0]:
         return None
     models = [os.environ.get("GEMINI_MODEL")] if os.environ.get("GEMINI_MODEL") else \
         ["gemini-flash-latest", "gemini-3.5-flash", "gemini-2.5-flash"]
     for model in models:
         try:
             r = requests.post(f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}",
-                              json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=90)
+                              json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=45)
             j = r.json()
             if "candidates" in j:
                 return j["candidates"][0]["content"]["parts"][0]["text"].strip()
             print("gemini", model, r.status_code, str(j)[:200])
+            if r.status_code != 404:
+                return None  # quota/key error: don't try other models
         except Exception as e:
             print("gemini fail", model, e)
+            return None
     return None
 
 
@@ -240,7 +251,7 @@ def main():
     posts = sorted(byid.values(), key=lambda p: p["id"], reverse=True)[:MAX_KEEP]
     prev = {p["id"]: p for p in old}
     has_key = bool(os.environ.get("GEMINI_API_KEY"))
-    budget = 8  # AI calls per run
+    budget = 6  # AI calls per run
     for p in posts:
         o = prev.get(p["id"], {})
         if o.get("draft_src") == "ai" or (o.get("draft_src") and not has_key):
