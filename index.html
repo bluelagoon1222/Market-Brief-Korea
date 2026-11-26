@@ -3,157 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DAILY BRIEF CHECK · 데일리 시황 공유</title>
+<title>DAILY BRIEF CHECK · 미래에셋 시황 피드</title>
 <style>
-:root{--bg:#f4f5f7;--card:#fff;--ink:#16191f;--sub:#6b7280;--line:#e5e7eb;--up:#d92d20;--dn:#1d4ed8;--acc:#f58220;--navy:#043b72}
+:root{--bg:#f4f5f7;--card:#fff;--ink:#16191f;--sub:#6b7280;--line:#e5e7eb;--navy:#043b72;--acc:#f58220}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:15px}
-header{background:var(--navy);color:#fff;padding:14px 16px}header h1{margin:0;font-size:18px}header p{margin:4px 0 0;font-size:12px;opacity:.8}
-header a{color:#fff;opacity:.8;font-size:12px}
-.tabs{display:flex;gap:6px;padding:10px 12px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
-.tabs button{flex:1;padding:10px;border:1px solid var(--line);background:#fff;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer}
-.tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-main{max-width:760px;margin:0 auto;padding:12px 12px 140px}
-.card{background:var(--card);border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-.card h2{font-size:15px;margin:0 0 10px;display:flex;justify-content:space-between;align-items:center}
-.card h2 small{font-weight:400;color:var(--sub);font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
-.tile{border:1px solid var(--line);border-radius:10px;padding:10px}.tile .n{font-size:12px;color:var(--sub)}
-.tile .p{font-size:17px;font-weight:700;margin-top:2px}.tile .c{font-size:14px;font-weight:700}
-.up{color:var(--up)}.dn{color:var(--dn)}
-.secs{display:grid;grid-template-columns:1fr 1fr;gap:10px}.secs ul{margin:0;padding:0;list-style:none}.secs li{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed var(--line);font-size:14px}
-.news{border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:8px}
-.news .t{font-weight:600;line-height:1.4}.news .o{font-size:12px;color:var(--sub);margin-top:3px}
-.badge{display:inline-block;font-size:11px;padding:2px 6px;border-radius:6px;margin:6px 4px 0 0}
-.ok{background:#e7f6ec;color:#16794a}.ng{background:#fff1e6;color:#b45309}.src{background:#eef2ff;color:#3730a3}
-.swap{float:right;font-size:12px;border:1px solid var(--line);background:#fff;border-radius:6px;padding:3px 8px;cursor:pointer}
-.op{background:#fff8f1;border:1px solid #fde2c6;border-radius:10px;padding:12px;line-height:1.6}
-.warn{background:#fff4f4;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:10px;font-size:13px;margin-bottom:12px}
-.meta{font-size:12px;color:var(--sub)}
-.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;z-index:9}
-.bar button{flex:1;padding:12px 4px;border-radius:10px;border:0;font-size:14px;font-weight:700;cursor:pointer;line-height:1.25}
-.b1{background:#eef0f3;color:var(--ink)}.b2{background:#fee500;color:#191919}.b3{background:var(--navy);color:#fff}
-.bar small{display:block;font-weight:400;font-size:11px;opacity:.8}
+header{background:var(--navy);color:#fff;padding:14px 16px}header h1{margin:0;font-size:18px}header p{margin:4px 0 0;font-size:12px;opacity:.85}header a{color:#fff}
+.top{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:8px 12px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}.chips button{flex:none;border:1px solid var(--line);background:#fff;border-radius:16px;padding:6px 12px;font-size:13px;cursor:pointer}
+.chips button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.stat{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--sub);margin-top:6px}
+.stat button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px;font-size:13px;cursor:pointer}
+.newbar{display:none;background:var(--acc);color:#fff;text-align:center;padding:9px;border-radius:10px;margin:0 0 14px;font-weight:700;cursor:pointer}
+main{max-width:760px;margin:0 auto;padding:14px 12px 40px}
+.card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:20px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.meta{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--sub);margin-bottom:6px}
+.tag{font-size:11px;padding:2px 7px;border-radius:6px;background:#eef2ff;color:#3730a3;font-weight:700}
+.tag.미국{background:#fdecec;color:#b42318}.tag.한국·중국,.tag.한국{background:#e8f1fd;color:#1d4ed8}.tag.중국{background:#fff1e6;color:#b45309}
+.t{font-weight:700;font-size:16px;line-height:1.4}
+.body{white-space:pre-wrap;line-height:1.6;margin-top:8px;font-size:14px;max-height:13.5em;overflow:hidden;position:relative;word-break:break-word}
+.body.open{max-height:none}.body:not(.open):after{content:"";position:absolute;left:0;right:0;bottom:0;height:3em;background:linear-gradient(transparent,#fff)}
+.more{border:0;background:none;color:var(--navy);font-weight:700;padding:6px 0;cursor:pointer;font-size:13px}
+.doc{font-size:13px;margin-top:6px}.doc a{color:var(--navy)}
+.photo{max-width:100%;border-radius:8px;margin-top:8px}
+.acts{display:flex;gap:8px;margin-top:10px}.acts button{flex:1;padding:11px 4px;border-radius:10px;border:0;font-weight:700;font-size:14px;cursor:pointer}
+.a1{background:#eef0f3}.a2{background:#fee500;color:#191919}
 dialog{width:min(640px,94vw);border:0;border-radius:14px;padding:16px}dialog::backdrop{background:rgba(0,0,0,.45)}
-dialog textarea{width:100%;font-family:inherit;height:180px;font-size:15px;padding:10px;border:1px solid var(--line);border-radius:8px;line-height:1.5}
-dialog .row{display:flex;gap:8px;margin-top:10px}dialog .row button{flex:1;padding:11px;border-radius:8px;border:1px solid var(--line);font-weight:700;font-size:14px}
-pre.prev{white-space:pre-wrap;font-family:inherit;font-size:13px;background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:10px;max-height:240px;overflow:auto}
-.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#111;color:#fff;padding:10px 16px;border-radius:20px;font-size:13px;display:none;z-index:20}
+dialog textarea{width:100%;height:170px;font-size:15px;font-family:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;line-height:1.5}
+dialog select{width:100%;padding:8px;border-radius:8px;border:1px solid var(--line);font-size:14px;margin:6px 0}
+.row{display:flex;gap:8px;margin-top:10px}.row button{flex:1;padding:11px;border-radius:8px;border:1px solid var(--line);font-weight:700;font-size:14px}
+pre.prev{white-space:pre-wrap;font-family:inherit;font-size:13px;background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:10px;max-height:220px;overflow:auto}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#111;color:#fff;padding:10px 16px;border-radius:20px;font-size:13px;display:none;z-index:20}
+.empty{text-align:center;color:var(--sub);padding:40px 0}
 </style>
 </head>
 <body>
 <header>
   <h1>📈 DAILY BRIEF CHECK</h1>
-  <p>아침(전일 미국) · 16:10(국내 마감) 시황 요약 → 카톡 공유 · <a href="https://bluelagoon1222.github.io/">SJ Market Desk</a></p>
+  <p>미래에셋증권 시황 채널(김석환·김주연) 최신 글 모음 → 의견 붙여 카톡 공유 · <a href="https://bluelagoon1222.github.io/">SJ Market Desk</a></p>
 </header>
-<div class="tabs"><button id="tM" class="on" onclick="load('morning')">☀️ 아침 시황</button><button id="tC" onclick="load('close')">🌙 마감 시황</button></div>
-<main id="app"><div class="card">불러오는 중…</div></main>
-
-<div class="bar">
-  <button class="b1" onclick="share(1)">1️⃣ 시황만<small>의견 없이</small></button>
-  <button class="b2" onclick="share(2)">2️⃣ 시황+의견<small>초안 포함</small></button>
-  <button class="b3" onclick="openEdit()">3️⃣ 의견 직접 작성<small>수정·새로 쓰기</small></button>
+<div class="top">
+  <div class="chips" id="chips"></div>
+  <div class="stat"><span id="upd">불러오는 중…</span><button onclick="load(true)">🔄 새로고침</button></div>
 </div>
+<main>
+  <div class="newbar" id="newbar" onclick="showNew()"></div>
+  <div id="list"></div>
+</main>
 
 <dialog id="dlg">
-  <b id="dlgT">의견 작성</b>
-  <p class="meta">초안을 고치거나 지우고 새로 쓰세요. 이 내용이 맨 아래에 붙어서 공유됩니다.</p>
-  <textarea id="myOp"></textarea>
-  <details><summary class="meta">공유될 전체 미리보기</summary><pre class="prev" id="prev"></pre></details>
-  <div class="row"><button onclick="dlg.close()">닫기</button><button style="background:#fee500;border:0" onclick="share(3)">공유하기</button></div>
+  <b>의견 붙여 공유</b>
+  <select id="opTitle">
+    <option>🔎 오늘의 관전포인트!</option>
+    <option>✍️ 오늘의 시장 한 줄 평!</option>
+    <option>💬 코멘트</option>
+  </select>
+  <textarea id="myOp" placeholder="의견을 입력하세요. 문장이 끝날 때마다 자동으로 줄이 바뀝니다."></textarea>
+  <details><summary style="font-size:12px;color:#6b7280">공유될 전체 미리보기</summary><pre class="prev" id="prev"></pre></details>
+  <div class="row"><button onclick="dlg.close()">닫기</button><button style="background:#fee500;border:0" onclick="shareOp()">공유하기</button></div>
 </dialog>
 <div class="toast" id="toast"></div>
 
 <script>
-let D=null,KIND='morning';
+const CATS=['전체','미국','한국·중국','한국','중국','일본·대만','뉴스링크','기타'];
+const SRC='출처: 미래에셋증권 리서치 (김석환, 김주연)';
+let ALL=[],CAT='전체',SHOWN=0,PENDING=null,CUR=null;
 const $=s=>document.querySelector(s);
-const f2=v=>v==null?'-':Number(v).toLocaleString('ko-KR',{maximumFractionDigits:2,minimumFractionDigits:2});
-const pc=v=>v==null?'-':(v>0?'+':'')+v.toFixed(2)+'%';
-const cls=v=>v>0?'up':v<0?'dn':'';
-const dot=v=>v>0?'🔴':v<0?'🔵':'⚪';
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const LINE='━━━━━━━━━━━━━━';
+const brk=t=>String(t||'').trim().replace(/([.!?])\s+/g,'$1\n');
 const WD=['일','월','화','수','목','금','토'];
+function when(iso){if(!iso)return'';const d=new Date(iso),n=new Date();const hm=d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});
+  return d.toDateString()===n.toDateString()?'오늘 '+hm:`${d.getMonth()+1}/${d.getDate()}(${WD[d.getDay()]}) ${hm}`;}
 
-async function load(kind){
-  KIND=kind;$('#tM').classList.toggle('on',kind==='morning');$('#tC').classList.toggle('on',kind==='close');
-  try{const r=await fetch('data/'+kind+'.json?t='+Date.now());D=await r.json();render();}
-  catch(e){$('#app').innerHTML='<div class="card">데이터가 아직 없습니다. Actions에서 수집을 한 번 실행해 주세요.</div>';D=null;}
-}
-
-function tiles(arr){return '<div class="grid">'+arr.map(x=>`<div class="tile"><div class="n">${esc(x.name)}</div><div class="p">${f2(x.price)}</div><div class="c ${cls(x.chg)}">${pc(x.chg)}</div></div>`).join('')+'</div>';}
-function secList(arr,up){return '<ul>'+arr.map(x=>`<li><span>${esc(x.name)}</span><b class="${cls(x.chg)}">${pc(x.chg)}</b></li>`).join('')+'</ul>';}
-function topBottom(s){const a=s.filter(x=>x.chg!=null);return [a.slice(0,3).filter(x=>x.chg>0),a.slice(-3).reverse().filter(x=>x.chg<0)];}
-function title(n){return n.ko||n.title;}
+function chips(){$('#chips').innerHTML=CATS.map(c=>{const n=c==='전체'?ALL.length:ALL.filter(p=>p.cat===c).length;
+  return n||c==='전체'?`<button class="${c===CAT?'on':''}" onclick="CAT='${c}';render()">${c} ${n}</button>`:'';}).join('');}
 
 function render(){
-  const d=D,m=KIND==='morning',g=new Date(d.generated);
-  let h='';
-  if(d.sample)h+='<div class="warn">⚠️ 샘플 데이터입니다. 숫자는 모두 가짜이며 화면 확인용입니다. 실제 수집 후 사라집니다.</div>';
-  h+=`<p class="meta">생성 ${d.generated.replace('T',' ')} KST · 데이터 기준일 ${esc((d.indices[0]||{}).date||'-')}${d.ai?' · AI 요약 사용':''}</p>`;
-  h+=`<div class="card"><h2>${m?'🇺🇸 미국 증시':'🌏 아시아 증시'}<small>종가 기준</small></h2>${tiles(d.indices)}</div>`;
-  if(m)h+=`<div class="card"><h2>🌐 달러·금·유가</h2>${tiles(d.macro)}</div>`;
-  else{h+=`<div class="card"><h2>⭐ 삼성전자 · SK하이닉스</h2>${tiles(d.stocks)}</div><div class="card"><h2>💱 환율</h2>${tiles(d.fx)}</div>`;}
-  const [up,dn]=topBottom(d.sectors);
-  h+=`<div class="card"><h2>📊 ${m?'미국':'국내'} 섹터<small>${m?'섹터 ETF 기준':'업종 ETF 기준'}</small></h2><div class="secs"><div><b class="up">▲ 강세</b>${secList(up)}</div><div><b class="dn">▼ 약세</b>${secList(dn)}</div></div></div>`;
-  if(!m&&d.flow)h+=`<div class="card"><h2>🕐 오늘 장 흐름</h2><div class="op">${esc(d.flow)}</div></div>`;
-  if(!m&&d.nq)h+=`<div class="card"><h2>🌙 나스닥 야간 선물<small>${esc(d.nq.time)} 기준</small></h2>${tiles([d.nq])}</div>`;
-  h+=`<div class="card"><h2>📰 시장이 주목한 뉴스<small>수집 ${d.news_total}건 · 결과형 ${d.news_excluded}건 제외</small></h2>`+
-     d.news.map((n,i)=>`<div class="news">${d.alternates.length?`<button class="swap" onclick="swap(${i})">교체</button>`:''}<div class="t">${i+1}. ${esc(title(n))}</div>${n.ko?`<div class="o">원문: ${esc(n.title)}</div>`:''}
-     <span class="badge src">출처 ${esc(n.source)}</span><span class="badge src">${n.sources.length}개 매체 언급</span>${n.move!=null?`<span class="badge src">관련 섹터 ${pc(n.move)}</span>`:''}<span class="badge ${n.verified?'ok':'ng'}">${n.verified?'✔ 검증':'⚠ 미확인'}</span>
-     <div class="o"><a href="${esc(n.link)}" target="_blank" rel="noopener">기사 열기 ↗</a></div></div>`).join('')+
-     `<p class="meta">검증 기준: 2개 이상 매체 언급 + 관련 섹터 ±0.5% 이상 반응. 배지는 사이트에서만 보이고 카톡에는 안 들어갑니다.</p></div>`;
-  h+=`<div class="card"><h2>${m?'🔎 오늘의 관전 포인트입니다':'✍️ 오늘의 시장 한 줄 평입니다'}<small>초안 · 2번에 포함</small></h2><div class="op">${esc(d.opinion)}</div></div>`;
-  $('#app').innerHTML=h;
+  chips();
+  const arr=ALL.filter(p=>CAT==='전체'||p.cat===CAT).slice(0,80);
+  $('#list').innerHTML=arr.length?arr.map(p=>`<div class="card">
+    <div class="meta"><span class="tag ${esc(p.cat)}">${esc(p.cat)}</span><span>${when(p.time)}</span><a href="${esc(p.url)}" target="_blank" rel="noopener" style="margin-left:auto;color:#6b7280">텔레그램 ↗</a></div>
+    <div class="t">${esc(p.title)}</div>
+    ${p.photo?`<img class="photo" src="${esc(p.photo)}" loading="lazy" alt="">`:''}
+    <div class="body" id="b${p.id}">${esc(p.text.split('\n').slice(1).join('\n').trim())}</div>
+    <button class="more" onclick="tog(${p.id},this)">펼치기 ▾</button>
+    ${p.docs.map(d=>`<div class="doc">📎 <a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(d.name)}</a></div>`).join('')}
+    <div class="acts"><button class="a1" onclick="share(${p.id},'')">원문 공유</button><button class="a2" onclick="openOp(${p.id})">의견 붙여 공유</button></div>
+  </div>`).join(''):'<div class="empty">글이 없습니다.</div>';
 }
+function tog(id,b){const e=$('#b'+id);e.classList.toggle('open');b.textContent=e.classList.contains('open')?'접기 ▴':'펼치기 ▾';}
 
-function swap(i){const a=D.alternates.shift();if(!a)return;D.alternates.push(D.news[i]);D.news[i]=a;render();toast('다음 후보 뉴스로 교체했어요');}
-
-function buildText(opinion){
-  const d=D,m=KIND==='morning',t=new Date();
-  const day=`${t.getMonth()+1}/${t.getDate()}(${WD[t.getDay()]})`;
-  const L=[];
-  L.push(m?`☀️ ${day} 아침 시황`:`🌙 ${day} 마감 시황`,LINE);
-  L.push(m?'【🇺🇸 미국 증시】':'【🌏 아시아 증시】');
-  d.indices.forEach(x=>L.push(`${dot(x.chg)} ${x.name} ${f2(x.price)} (${pc(x.chg)})`));
-  L.push(LINE);
-  if(m){L.push('【🌐 달러·금·유가】');d.macro.forEach(x=>L.push(`${dot(x.chg)} ${x.name} ${f2(x.price)} (${pc(x.chg)})`));}
-  else{L.push('【⭐ 대표주】');d.stocks.forEach(x=>L.push(`${dot(x.chg)} ${x.name} ${Math.round(x.price).toLocaleString('ko-KR')}원 (${pc(x.chg)})`));
-       L.push('','【💱 환율】');d.fx.forEach(x=>L.push(`${dot(x.chg)} ${x.name} ${f2(x.price)} (${pc(x.chg)})`));}
-  L.push(LINE);
-  const [up,dn]=topBottom(d.sectors);
-  L.push(m?'【📊 미국 섹터】':'【📊 국내 업종】');
-  if(up.length)L.push('▲ 강세: '+up.map(x=>`${x.name} ${pc(x.chg)}`).join(' · '));
-  if(dn.length)L.push('▼ 약세: '+dn.map(x=>`${x.name} ${pc(x.chg)}`).join(' · '));
-  if(!m&&d.flow){L.push('','【🕐 오늘 장 흐름】',d.flow);}
-  if(!m&&d.nq){L.push('','【🌙 나스닥 야간 선물】',`${dot(d.nq.chg)} ${pc(d.nq.chg)} (${d.nq.time} 기준)`);}
-  L.push(LINE,'【📰 시장이 주목한 뉴스】');
-  const num=['1️⃣','2️⃣','3️⃣'];
-  d.news.forEach((n,i)=>{L.push(`${num[i]} ${title(n)}`,`   └ 출처: ${n.source}`,`   ${n.link}`);});
-  if(opinion&&opinion.trim()){L.push(LINE,m?'🔎 오늘의 관전 포인트입니다':'✍️ 오늘의 시장 한 줄 평입니다',opinion.trim());}
-  return L.join('\n');
+async function load(manual){
+  try{const r=await fetch('data/posts.json?t='+Date.now());const d=await r.json();
+    $('#upd').textContent=`마지막 수집 ${when(d.updated)} · 1분마다 자동 확인`;
+    if(!ALL.length||manual){ALL=d.posts;SHOWN=ALL[0]?.id||0;$('#newbar').style.display='none';render();if(manual)toast('최신 상태예요');return;}
+    const n=d.posts.filter(p=>p.id>SHOWN).length;
+    if(n){PENDING=d.posts;$('#newbar').textContent=`🆕 새 글 ${n}건 — 눌러서 보기`;$('#newbar').style.display='block';}
+  }catch(e){$('#upd').textContent='데이터가 아직 없습니다. Actions에서 수집을 실행해 주세요.';}
 }
+function showNew(){if(!PENDING)return;ALL=PENDING;SHOWN=ALL[0].id;PENDING=null;$('#newbar').style.display='none';render();scrollTo(0,0);}
 
-async function share(mode){
-  if(!D)return;
-  const op=mode===1?'':mode===2?D.opinion:$('#myOp').value;
-  if(mode===3&&!op.trim()){toast('의견을 입력해 주세요');return;}
-  const text=buildText(op);
-  if(navigator.share&&/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){
-    try{await navigator.share({text});if(mode===3)dlg.close();return;}catch(e){if(e.name==='AbortError')return;}
-  }
+function build(p,op,title){
+  let t=p.text.trim();
+  if(op&&op.trim())t+=`\n\n━━━━━━━━━━━━━━\n\n${title}\n\n${brk(op)}`;
+  return t+`\n\n${SRC}`;
+}
+async function send(text){
+  if(navigator.share&&/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){try{await navigator.share({text});return true;}catch(e){if(e.name==='AbortError')return false;}}
   try{await navigator.clipboard.writeText(text);}catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}
-  if(mode===3)dlg.close();
-  toast('복사했어요. 카톡 대화방에 붙여넣기 하세요');
+  toast('복사했어요. 카톡 대화방에 붙여넣기 하세요');return true;
 }
-
+function share(id){const p=ALL.find(x=>x.id===id);send(build(p,'',''));}
 const dlg=$('#dlg');
-function openEdit(){if(!D)return;$('#dlgT').textContent=KIND==='morning'?'🔎 오늘의 관전 포인트 작성':'✍️ 오늘의 시장 한 줄 평 작성';
-  $('#myOp').value=D.opinion;upd();dlg.showModal();}
-function upd(){$('#prev').textContent=buildText($('#myOp').value);}
-$('#myOp').addEventListener('input',upd);
+function openOp(id){CUR=ALL.find(x=>x.id===id);$('#opTitle').selectedIndex=CUR.cat==='미국'?0:/한국|중국/.test(CUR.cat)?1:2;$('#myOp').value='';upd();dlg.showModal();}
+function upd(){if(CUR)$('#prev').textContent=build(CUR,$('#myOp').value,$('#opTitle').value);}
+$('#myOp').addEventListener('input',upd);$('#opTitle').addEventListener('change',upd);
+async function shareOp(){if(!$('#myOp').value.trim()){toast('의견을 입력해 주세요');return;}if(await send(build(CUR,$('#myOp').value,$('#opTitle').value)))dlg.close();}
 function toast(s){const t=$('#toast');t.textContent=s;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',2200);}
 
-load(new Date().getHours()>=16||new Date().getHours()<2?'close':'morning');
+load();setInterval(()=>load(false),60000);
 </script>
 </body>
 </html>

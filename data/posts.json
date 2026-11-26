@@ -1,0 +1,46 @@
+{
+ "channel": "globalmktinsight",
+ "updated": "2026-11-26T12:20+09:00",
+ "posts": [
+  {
+   "id": 7723,
+   "url": "https://t.me/globalmktinsight/7723",
+   "time": "2026-11-26T17:00+09:00",
+   "title": "[샘플] https://n.news.naver.com/x",
+   "text": "https://n.news.naver.com/x\n국민연금, 3분기 손실",
+   "links": [
+    "https://n.news.naver.com/x"
+   ],
+   "docs": [],
+   "photo": null,
+   "cat": "뉴스링크"
+  },
+  {
+   "id": 7722,
+   "url": "https://t.me/globalmktinsight/7722",
+   "time": "2026-11-26T16:05+09:00",
+   "title": "[샘플] 한국&중국 마켓 클로징(11월 26일)",
+   "text": "한국&중국 마켓 클로징(11월 26일)\n9거래일 만에 돌아온 외국인\n- 코스피 +1.2%",
+   "links": [],
+   "docs": [],
+   "photo": null,
+   "cat": "한국·중국"
+  },
+  {
+   "id": 7720,
+   "url": "https://t.me/globalmktinsight/7720",
+   "time": "2026-11-26T07:33+09:00",
+   "title": "[샘플] 글로벌 마켓 브리핑(11월 26일)",
+   "text": "글로벌 마켓 브리핑(11월 26일)\n▶️'전약 후강' 미국증시..다우 +0.3%, 나스닥 -0.6%\n\n*Key Indices\n1. 미국증시 주요지수\n- 다우존스 산업평균: 50,182.95/ +0.33%\nhttps://securities.miraeasset.com/bbs/download/2148732.pdf?attachmentId=2148732",
+   "links": [],
+   "docs": [
+    {
+     "name": "2148732.pdf",
+     "url": null
+    }
+   ],
+   "photo": null,
+   "cat": "미국"
+  }
+ ]
+}
