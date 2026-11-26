@@ -1,0 +1,169 @@
+{
+ "kind": "close",
+ "sample": true,
+ "generated": "2026-11-25T15:05+09:00",
+ "indices": [
+  {
+   "name": "코스피",
+   "ticker": "",
+   "price": 2500.0,
+   "chg": 0.5,
+   "date": "2026-11-24"
+  },
+  {
+   "name": "코스닥",
+   "ticker": "",
+   "price": 700.0,
+   "chg": -0.3,
+   "date": "2026-11-24"
+  },
+  {
+   "name": "닛케이225",
+   "ticker": "",
+   "price": 38000.0,
+   "chg": 0.2,
+   "date": "2026-11-24"
+  },
+  {
+   "name": "대만 가권",
+   "ticker": "",
+   "price": 22000.0,
+   "chg": 0.9,
+   "date": "2026-11-24"
+  },
+  {
+   "name": "상해종합",
+   "ticker": "",
+   "price": 3300.0,
+   "chg": -0.1,
+   "date": "2026-11-24"
+  }
+ ],
+ "fx": [
+  {
+   "name": "원/달러",
+   "ticker": "",
+   "price": 1400.0,
+   "chg": 0.2,
+   "date": "2026-11-24"
+  },
+  {
+   "name": "원/100엔",
+   "ticker": "",
+   "price": 900.0,
+   "chg": -0.1,
+   "date": "2026-11-24"
+  }
+ ],
+ "stocks": [
+  {
+   "name": "삼성전자",
+   "ticker": "",
+   "price": 60000,
+   "chg": 1.0,
+   "date": "2026-11-24"
+  },
+  {
+   "name": "SK하이닉스",
+   "ticker": "",
+   "price": 200000,
+   "chg": 2.0,
+   "date": "2026-11-24"
+  }
+ ],
+ "sectors": [
+  {
+   "name": "반도체",
+   "ticker": "",
+   "price": 0,
+   "chg": 1.5,
+   "date": "2026-11-24"
+  },
+  {
+   "name": "증권",
+   "ticker": "",
+   "price": 0,
+   "chg": 0.9,
+   "date": "2026-11-24"
+  },
+  {
+   "name": "은행",
+   "ticker": "",
+   "price": 0,
+   "chg": 0.2,
+   "date": "2026-11-24"
+  },
+  {
+   "name": "자동차",
+   "ticker": "",
+   "price": 0,
+   "chg": -0.4,
+   "date": "2026-11-24"
+  },
+  {
+   "name": "2차전지",
+   "ticker": "",
+   "price": 0,
+   "chg": -1.8,
+   "date": "2026-11-24"
+  }
+ ],
+ "nq": {
+  "name": "나스닥100 선물",
+  "price": 21000.0,
+  "chg": 0.3,
+  "time": "11/25 15:05"
+ },
+ "flow": "[샘플] 오전에는 반도체 중심 매수세로 상승 출발했고, 오후에는 2차전지 약세로 상승폭을 일부 반납했습니다.",
+ "news": [
+  {
+   "title": "[샘플] 국내 원인형 뉴스 1",
+   "ko": null,
+   "link": "https://example.com",
+   "source": "한국경제",
+   "sources": [
+    "한국경제",
+    "아시아경제"
+   ],
+   "topic": null,
+   "move": 1.5,
+   "score": 0,
+   "verified": true,
+   "desc": ""
+  },
+  {
+   "title": "[샘플] 국내 원인형 뉴스 2",
+   "ko": null,
+   "link": "https://example.com",
+   "source": "연합뉴스",
+   "sources": [
+    "한국경제",
+    "연합뉴스"
+   ],
+   "topic": null,
+   "move": null,
+   "score": 0,
+   "verified": true,
+   "desc": ""
+  },
+  {
+   "title": "[샘플] 국내 원인형 뉴스 3",
+   "ko": null,
+   "link": "https://example.com",
+   "source": "아시아경제",
+   "sources": [
+    "아시아경제"
+   ],
+   "topic": null,
+   "move": -1.8,
+   "score": 0,
+   "verified": false,
+   "desc": ""
+  }
+ ],
+ "alternates": [],
+ "news_total": 0,
+ "news_excluded": 0,
+ "opinion": "오늘 코스피 +0.50%, 코스닥 -0.30%로 마감했습니다. 삼성전자 +1.00% / SK하이닉스 +2.00%. 반도체, 증권 업종이 지수를 받쳤고, 2차전지, 자동차 업종은 약했습니다. 현재 나스닥 선물은 +0.30%로 오늘 밤 미국장 분위기를 가늠해 볼 수 있습니다.",
+ "ai": false
+}
