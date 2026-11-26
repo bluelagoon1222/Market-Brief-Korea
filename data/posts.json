@@ -1,7 +1,22 @@
 {
  "channel": "globalmktinsight",
- "updated": "2026-11-26T14:23+09:00",
+ "updated": "2026-11-26T22:38+09:00",
  "posts": [
+  {
+   "id": 7984,
+   "url": "https://t.me/globalmktinsight/7984",
+   "time": "2026-11-26T16:37+09:00",
+   "title": "한국 마켓 클로징(11월 26일)",
+   "text": "한국 마켓 클로징(11월 26일)\n \n외국인 매도에 코스피 '전강후약'\n \n# 국내 마감\n▶️ Summary\n· 코스피 4,711.21(+0.29%), 코스닥 655.71(+0.78%)\n· 코스피 기관 매수세에 반등하며 강보합 마감, 외국인은 장중 순매도 전환하며 연일 매도 우위\n· 달러-원 환율, 1,340원대 지속되며 소폭 하락, 한은의 경제 성장률 상향 조정에 원화 강세\n· 한국은행, 11월 금융통화위원회 기준금리 3.25%로 25bp 상향, 2027년 성장률 4.1% 전망\n· USTR, 중국 등 14개 경제주체에 과잉생산 관세 부과, 한국은 15% 상한 유지\n \n▶️ Up&Down\n· 우주항공\n- 스페이스X의 우주 데이터센터용 위성 배치 승인 소식에 우주 인프라 투자 확대 기대감 확산. 우주 데이터센터향 태양광 발전 수요 증가 기대에 우주항공 및 태양광 밸류체인 동반 강세\n- TIGER 미국우주테크(+5.72%)\n \n· 기판\n- 美 기술주 낙폭 축소에 기판주 중심 저가매수세 유입. 메모리 패키지 기판 공급 부족이 지속되며 판가 인상 및 수주잔고 증가에 따른 실적 개선 기대감 부각\n- TIGER 글로벌 MLCC&기판(+5.31%)\n \n· 바이오\n- 기술이전 및 신약 개발 기업 중심으로 매수세 유입. 글로벌 비만치료제 시장 확대와 12월 주요 바이오 학회를 앞두고 신약 개발 및 임상 성과 기대감 부각\n-  TIGER 기술이전바이오액티브(+3.31%)\n \n# 주목 할 이벤트(한국시각)\n26일 21:30 ECB 통화정책회의 의사록 공개\n27일 08:30 일본 11월 도쿄지역 소비자물가지수\n27일 10:30 중국 10월 공업이익\n27일 14:00 일본 10월 건설수주\n* 미국 증시는 '추수감사절'로 휴장\n\nhttps://securities.miraeasset.com/bbs/maildownload/20261126163100027_3533",
+   "links": [
+    "https://securities.miraeasset.com/bbs/maildownload/20261126163100027_3533"
+   ],
+   "docs": [],
+   "photo": null,
+   "cat": "한국·중국",
+   "draft": "오늘 국내 증시는 '외국인 매도에 코스피 전강후약' 흐름으로 코스피 +0.29%, 코스닥 +0.78%로 마감했습니다. 테마로는 우주항공·기판·바이오 쪽이 강세입니다. 내일 장도 오늘 수급 흐름이 이어지는지 확인하며 대응하시는 게 좋겠습니다.",
+   "draft_src": "rule"
+  },
   {
    "id": 7983,
    "url": "https://t.me/globalmktinsight/7983",
@@ -137,7 +152,7 @@
     "https://t.me/globalmktinsight/7972"
    ],
    "docs": [],
-   "photo": "https://cdn5.telesco.pe/file/M29s3x0r47olRnSLRATmzyg_Zf9nzOKslv7JpIAiDNfeFSTZ76mptqNFQWYhLPE2BpilW8kDE0h4hPmzL8RHxdvCXzZP6dG7viHVyQBontziekNLFza7jOoZqi5UeEYCpy2RkbGoEqn_NWUVBAe8VWHCJEVPTkhSkC2vcHMidq-MxcmQqUnqmEMZAERR-pzdMC3rODD2X-7pElAXlkJsxn8xYd_SLU-cEkTLNyEf02aPyWjsjbhmc1Sxl6JQgv4v3VUl9FOn-O3odAdAAPPxbmqrCRsrof0H9dvQjZe1GLVoualI8RHVYOLVQnmeiXGm3FtiJwOlYEfl_viUdh7lxg.jpg",
+   "photo": "https://cdn5.telesco.pe/file/EImzsQCmruIXgLljtLn9m-qqCqL8IzsOv6-Bb4qTqL8xrQ6W1lsbDYU9Ahjj3PHAQgskRlO0kQPxul610e9mUfmVYQ14VRQLceA6865sxNagMAoJTHvwvTsANcbu21lqkka9K4EhI25D3YMxY2hNzUZmIDP-q7fr7sNmRXdEVIl2sr7_OVWB8H3NV3-flfLhzZXUQ6BTpAZ43g_E4KvzHibvGg8qc7X8iJVSHU-OjEW98WNqwIdaW4uNcV6u5X9Gq6fEv8x5HtPs1itwmuezRi1xmnOZUt8IBYfyVmg4K9yWXIITX_J7CjNZF7d9d2ulmSPOaelJ6cA_JzHZdOrM4w.jpg",
    "cat": "한국",
    "draft": null,
    "draft_src": null
@@ -311,52 +326,6 @@
    "docs": [],
    "photo": null,
    "cat": "기타",
-   "draft": null,
-   "draft_src": null
-  },
-  {
-   "id": 7723,
-   "url": "https://t.me/globalmktinsight/7723",
-   "time": "2026-11-26T17:00+09:00",
-   "title": "[샘플] https://n.news.naver.com/x",
-   "text": "https://n.news.naver.com/x\n국민연금, 3분기 손실",
-   "links": [
-    "https://n.news.naver.com/x"
-   ],
-   "docs": [],
-   "photo": null,
-   "cat": "뉴스링크",
-   "draft": null,
-   "draft_src": null
-  },
-  {
-   "id": 7722,
-   "url": "https://t.me/globalmktinsight/7722",
-   "time": "2026-11-26T16:05+09:00",
-   "title": "[샘플] 한국&중국 마켓 클로징(11월 26일)",
-   "text": "한국&중국 마켓 클로징(11월 26일)\n9거래일 만에 돌아온 외국인\n- 코스피 +1.2%",
-   "links": [],
-   "docs": [],
-   "photo": null,
-   "cat": "한국·중국",
-   "draft": "11월 26일 마켓 클로징 기준 코스피는 9거래일 만에 외국인이 돌아오며 +1.2% 상승했습니다. 이번 자료에는 세부적인 강세 및 약세 업종에 대한 내용이 언급되지 않았으나, 외국인 수급의 복귀가 지수 반등을 이끈 핵심 요인으로 해석됩니다. 향후 외국인의 매수 흐름이 연속성을 띠는지 점검하시면서 시장 추이를 지켜보실 필요가 있겠습니다.",
-   "draft_src": "ai"
-  },
-  {
-   "id": 7720,
-   "url": "https://t.me/globalmktinsight/7720",
-   "time": "2026-11-26T07:33+09:00",
-   "title": "[샘플] 글로벌 마켓 브리핑(11월 26일)",
-   "text": "글로벌 마켓 브리핑(11월 26일)\n▶️'전약 후강' 미국증시..다우 +0.3%, 나스닥 -0.6%\n\n*Key Indices\n1. 미국증시 주요지수\n- 다우존스 산업평균: 50,182.95/ +0.33%\nhttps://securities.miraeasset.com/bbs/download/2148732.pdf?attachmentId=2148732",
-   "links": [],
-   "docs": [
-    {
-     "name": "2148732.pdf",
-     "url": null
-    }
-   ],
-   "photo": null,
-   "cat": "미국",
    "draft": null,
    "draft_src": null
   }
