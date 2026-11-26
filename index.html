@@ -63,8 +63,7 @@ pre.prev{white-space:pre-wrap;font-family:inherit;font-size:.85rem;background:#f
   <b>3️⃣ 의견 직접 작성</b>
   <select id="opTitle">
     <option>🔎 오늘의 관전포인트!</option>
-    <option>✍️ 오늘의 시장 한 줄 평!</option>
-    <option>💬 코멘트</option>
+    <option>📋 투자 체크포인트</option>
   </select>
   <textarea id="myOp" placeholder="의견을 입력하세요. 문장이 끝날 때마다 자동으로 줄이 바뀝니다."></textarea>
   <details><summary style="font-size:12px;color:#6b7280">공유될 전체 미리보기</summary><pre class="prev" id="prev"></pre></details>
@@ -142,7 +141,7 @@ async function send(text){
   toast('복사했어요. 카톡 대화방에 붙여넣기 하세요');return true;
 }
 function share(id,mode){const p=ALL.find(x=>x.id===id);send(build(p,mode===2?p.draft:'',opT(p)));}
-function opT(p){return /글로벌 마켓 브리핑/.test(p.title)||p.cat==='미국'?'🔎 오늘의 관전포인트!':/한국|중국/.test(p.cat)?'✍️ 오늘의 시장 한 줄 평!':'💬 코멘트';}
+function opT(p){return /글로벌 마켓 브리핑/.test(p.title)?'🔎 오늘의 관전포인트!':'📋 투자 체크포인트';}
 const dlg=$('#dlg');
 function openOp(id){CUR=ALL.find(x=>x.id===id);$('#opTitle').value=opT(CUR);$('#myOp').value=CUR.draft||'';upd();dlg.showModal();}
 function upd(){if(CUR)$('#prev').textContent=build(CUR,$('#myOp').value,$('#opTitle').value);}
