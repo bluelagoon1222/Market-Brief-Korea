@@ -33,9 +33,10 @@ main{max-width:900px;margin:0 auto;padding:14px 12px 40px}
 .more{border:0;background:none;color:var(--navy);font-weight:700;padding:8px 0;cursor:pointer;font-size:.9rem}
 .doc{font-size:.9rem;margin-top:6px}.doc a{color:var(--navy)}
 .photo{max-width:100%;border-radius:8px;margin-top:8px}
-.acts{display:flex;gap:8px;margin-top:12px}.acts button{flex:1;padding:12px 4px;border-radius:10px;border:0;font-weight:700;font-size:.92rem;cursor:pointer;line-height:1.3}.acts small{display:block;font-weight:400;font-size:.72rem;opacity:.8}.a3{background:var(--navy);color:#fff}
+.acts{display:flex;gap:8px;margin-top:12px}.acts button{flex:1;padding:12px 4px;border-radius:10px;border:0;font-weight:700;font-size:.92rem;cursor:pointer;line-height:1.3}.acts small{display:block;font-weight:400;font-size:.72rem;opacity:.8}.a3{background:#3c1e1e;color:#fee500}
 .op{white-space:pre-line;background:#fff8f1;border:1px solid #fde2c6;border-radius:10px;padding:12px 14px;line-height:1.7;margin-top:12px}.op b{display:block;margin-bottom:6px}
-.a1{background:#eef0f3}.a2{background:#fee500;color:#191919}
+.kt{margin-top:14px;font-size:.85rem;font-weight:700;color:#3c1e1e;background:#fee500;display:block;width:fit-content;padding:3px 10px;border-radius:12px}
+.a1{background:#fff6b0;color:#3c1e1e;border:1px solid #f2d900!important}.a2{background:#fee500;color:#3c1e1e}.a2:disabled{background:#eceff3;color:#9aa1ad;cursor:not-allowed}
 dialog{width:min(640px,94vw);border:0;border-radius:14px;padding:16px}dialog::backdrop{background:rgba(0,0,0,.45)}
 dialog textarea{width:100%;height:200px;font-size:1rem;font-family:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;line-height:1.5}
 dialog select{width:100%;padding:8px;border-radius:8px;border:1px solid var(--line);font-size:.95rem;margin:6px 0}
@@ -96,7 +97,8 @@ function render(){
     <button class="more" onclick="tog(${p.id},this)">펼치기 ▾</button>
     ${p.docs.map(d=>`<div class="doc">📎 <a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(d.name)}</a></div>`).join('')}
     ${p.draft?`<div class="op"><b>${opT(p)}</b>${esc(brk(p.draft))}</div>`:''}
-    <div class="acts"><button class="a1" onclick="share(${p.id},1)">1️⃣ 시황만<small>원문 그대로</small></button>${p.draft?`<button class="a2" onclick="share(${p.id},2)">2️⃣ 시황+의견<small>위 초안 포함</small></button>`:''}<button class="a3" onclick="openOp(${p.id})">3️⃣ 직접 작성<small>수정·새로 쓰기</small></button></div>
+    <div class="kt">💬 카카오톡으로 보내기</div>
+    <div class="acts"><button class="a1" onclick="share(${p.id},1)">1️⃣ 시황만<small>원문 그대로</small></button><button class="a2" ${p.draft?'':'disabled'} onclick="share(${p.id},2)">2️⃣ 시황+의견<small>${p.draft?'위 초안 포함':'초안 없는 글'}</small></button><button class="a3" onclick="openOp(${p.id})">3️⃣ 직접 작성<small>수정·새로 쓰기</small></button></div>
   </div>`).join(''):'<div class="empty">글이 없습니다.</div>';
 }
 function tog(id,b){const e=$('#b'+id);e.classList.toggle('open');b.textContent=e.classList.contains('open')?'접기 ▴':'펼치기 ▾';}
