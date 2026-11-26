@@ -64,6 +64,8 @@ def parse(html):
             photo = mm.group(1) if mm else None
         if not body and not docs and not photo:
             continue
+        if "service_message" in m.get("class", []) or re.search(r"\bpinned (a|the|«)", body):
+            continue  # pin / service notices
         title = next((l.strip() for l in body.splitlines() if l.strip()), docs[0]["name"] if docs else "(사진)")
         posts.append(dict(id=pid, url=f"https://t.me/{CHANNEL}/{pid}",
                           time=when.isoformat(timespec="minutes") if when else None,
