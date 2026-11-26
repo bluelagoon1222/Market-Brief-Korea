@@ -29,6 +29,7 @@ main{max-width:900px;margin:0 auto;padding:14px 12px 40px}
 .tag.미국{background:#fdecec;color:#b42318}.tag.한국·중국,.tag.한국{background:#e8f1fd;color:#1d4ed8}.tag.중국{background:#fff1e6;color:#b45309}
 .t{font-weight:700;font-size:1.15rem;line-height:1.4}
 .body{white-space:pre-wrap;line-height:1.7;margin-top:10px;font-size:1rem;max-height:14em;overflow:hidden;position:relative;word-break:break-word}
+.up{color:#dc2626;font-weight:700}.dn{color:#2563eb;font-weight:700}
 .body.open{max-height:none}.body:not(.open):after{content:"";position:absolute;left:0;right:0;bottom:0;height:3em;background:linear-gradient(transparent,#fff)}
 .more{border:0;background:none;color:var(--navy);font-weight:700;padding:8px 0;cursor:pointer;font-size:.9rem}
 .doc{font-size:.9rem;margin-top:6px}.doc a{color:var(--navy)}
@@ -93,7 +94,7 @@ function render(){
     <div class="meta"><span class="tag ${esc(p.cat)}">${esc(p.cat)}</span><span>${when(p.time)}</span><a href="${esc(p.url)}" target="_blank" rel="noopener" style="margin-left:auto;color:#6b7280">텔레그램 ↗</a></div>
     <div class="t">${esc(p.title)}</div>
     ${p.photo?`<img class="photo" src="${esc(p.photo)}" loading="lazy" alt="">`:''}
-    <div class="body" id="b${p.id}">${esc(deco(p.text).split('\n').slice(1).join('\n').trim())}</div>
+    <div class="body" id="b${p.id}">${esc(deco(p.text).split('\n').slice(1).join('\n').trim()).replace(/↑/g,'<span class="up">↑</span>').replace(/↓/g,'<span class="dn">↓</span>')}</div>
     <button class="more" onclick="tog(${p.id},this)">펼치기 ▾</button>
     ${p.docs.map(d=>`<div class="doc">📎 <a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(d.name)}</a></div>`).join('')}
     ${p.draft?`<div class="op"><b>${opT(p)}</b>${esc(brk(p.draft))}</div>`:''}
@@ -116,7 +117,7 @@ function showNew(){if(!PENDING)return;ALL=PENDING;SHOWN=ALL[0].id;PENDING=null;$
 const NUM=/([+-]\d[\d,]*(?:\.\d+)?)\s*(%|bp|p\b|원|달러)/g;
 const HEAD=[[/^\*?\s*Key Indices/i,'📊'],[/^\*?\s*Key Takeaways/i,'💡'],[/^\*?\s*Key Stocks/i,'⭐'],[/^\*?\s*FICC/i,'💱'],
   [/^#\s*국내/,'🇰🇷'],[/^#\s*중국|^#\s*홍콩/,'🇨🇳'],[/^#\s*미국/,'🇺🇸'],[/^#\s*일본/,'🇯🇵'],[/^#\s*주목|이벤트/,'📅'],[/^▶️?\s*Summary/i,'📝'],[/^▶️?\s*Up\s*&\s*Down/i,'↕️'],[/^▶️?\s*테마/,'🔥'],
-  [/^\d\.\s*상승/,'🔺'],[/^\d\.\s*하락/,'🔽'],[/^\d\.\s*채권/,'🏦'],[/^\d\.\s*외환/,'💵'],[/^\d\.\s*상품/,'🛢️'],[/^\d\.\s*미국증시 주요지수/,'🇺🇸'],[/^\d\.\s*S&P500 업종/,'🏭']];
+  [/^\d\.\s*상승/,'↑'],[/^\d\.\s*하락/,'↓'],[/^\d\.\s*채권/,'🏦'],[/^\d\.\s*외환/,'💵'],[/^\d\.\s*상품/,'🛢️'],[/^\d\.\s*미국증시 주요지수/,'🇺🇸'],[/^\d\.\s*S&P500 업종/,'🏭']];
 function deco(text){
   const L=text.split('\n').map(l=>l.replace(/\s+$/,''));
   return L.map((l,i)=>{
@@ -124,9 +125,9 @@ function deco(text){
     if(i===0)return '📌 '+s;
     for(const [re,ic] of HEAD)if(re.test(s))return (i>1?'\n':'')+ic+' '+s.replace(/^\*\s*|^#\s*|^▶️?\s*|^\d\.\s*/,'');
     const nums=[...s.matchAll(NUM)];
-    if(nums.length===1&&!/^https?:/.test(s)){const ic=nums[0][1][0]==='+'?'🔺':'🔽';
+    if(nums.length===1&&!/^https?:/.test(s)){const ic=nums[0][1][0]==='+'?'↑':'↓';
       return /^[-·•]\s*/.test(s)?s.replace(/^[-·•]\s*/,ic+' '):ic+' '+s;}
-    if(nums.length>1)return s.replace(/^[-·•]\s*/,'').replace(NUM,(m,v,u)=>(v[0]==='+'?'🔺':'🔽')+v+(u==='p'?'p':u));
+    if(nums.length>1)return s.replace(/^[-·•]\s*/,'').replace(NUM,(m,v,u)=>(v[0]==='+'?'↑':'↓')+v+(u==='p'?'p':u));
     if(/^-(?!\d)/.test(s)||/^-\d+(월|분기|일)/.test(s))return '▪️ '+s.replace(/^-\s*/,'');
     if(/^·\s*/.test(s))return '▫️ '+s.replace(/^·\s*/,'');
     return s;
