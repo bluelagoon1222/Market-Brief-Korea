@@ -1,0 +1,46 @@
+name: Daily Brief
+
+on:
+  schedule:
+    - cron: "30 21 * * 0-4"   # 06:30 KST Mon-Fri  -> morning (US close)
+    - cron: "10 7 * * 1-5"    # 16:10 KST Mon-Fri  -> close (KR close)
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: "morning or close"
+        required: true
+        default: "morning"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install yfinance feedparser requests
+      - name: Pick kind
+        id: k
+        run: |
+          if [ -n "${{ github.event.inputs.kind }}" ]; then
+            echo "kind=${{ github.event.inputs.kind }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.schedule }}" = "30 21 * * 0-4" ]; then
+            echo "kind=morning" >> $GITHUB_OUTPUT
+          else
+            echo "kind=close" >> $GITHUB_OUTPUT
+          fi
+      - name: Collect
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/collect.py ${{ steps.k.outputs.kind }}
+      - name: Commit
+        run: |
+          git config user.name "brief-bot"
+          git config user.email "brief-bot@users.noreply.github.com"
+          git add data
+          git commit -m "brief ${{ steps.k.outputs.kind }} $(TZ=Asia/Seoul date +%F_%H%M)" || echo "no change"
+          git push
