@@ -6,12 +6,22 @@ import json, os, re, sys, datetime as dt
 import requests
 from bs4 import BeautifulSoup
 
-CHANNEL = os.environ.get("TG_CHANNEL", "globalmktinsight")
-MAX_KEEP = 300
+# ▼ 채널 추가는 이 목록에 한 줄만 넣으면 됩니다 (텔레그램 주소 t.me/뒤의 이름, 사이트 탭에 보일 짧은 이름)
+CHANNELS = [
+    ("globalmktinsight", "시황"),
+    ("ehdwl", "사제콩이"),
+    ("miraebond", "채권·경제"),
+    ("eqmirae", "전략·퀀트"),
+    ("bioksm", "제약·바이오"),
+]
+MAIN = "globalmktinsight"
+MAX_PER_CHANNEL = 150
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "data", "posts.json")
 KST = dt.timezone(dt.timedelta(hours=9))
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/124 Safari/537.36"}
+
+CH_TITLE = {}
 
 CATS = [  # (category, pattern on first lines)
     ("미국", r"글로벌\s*마켓\s*브리핑|미국\s*증시|뉴욕|월가|월스트리트"),
@@ -46,9 +56,11 @@ def category(text):
     return "기타"
 
 
-def parse(html):
+def parse(html, ch=MAIN):
     soup = BeautifulSoup(html, "html.parser")
     posts = []
+    ht = soup.select_one(".tgme_channel_info_header_title")
+    CH_TITLE[ch] = ht.get_text(strip=True) if ht else CH_TITLE.get(ch, ch)
     for m in soup.select("div.tgme_widget_message[data-post]"):
         pid = int(m["data-post"].split("/")[-1])
         tm = m.select_one("a.tgme_widget_message_date time")
@@ -67,7 +79,7 @@ def parse(html):
         if "service_message" in m.get("class", []) or re.search(r"\bpinned (a|the|«)", body):
             continue  # pin / service notices
         title = next((l.strip() for l in body.splitlines() if l.strip()), docs[0]["name"] if docs else "(사진)")
-        posts.append(dict(id=pid, url=f"https://t.me/{CHANNEL}/{pid}",
+        posts.append(dict(id=pid, ch=ch, uid=f"{ch}/{pid}", url=f"https://t.me/{ch}/{pid}",
                           time=when.isoformat(timespec="minutes") if when else None,
                           title=title[:120], text=body, links=links[:10], docs=docs, photo=photo,
                           cat=category(body)))
@@ -195,9 +207,9 @@ PROMPT_US = """너는 한국 증권사 PB다. 아래는 미래에셋증권 리�
 규칙: 존댓말, 원문에 없는 숫자·사실은 쓰지 말 것, 숫자를 쓰면 원문 그대로, 과장·단정·매수 권유 표현 금지,
 제목·머리표·이모지 없이 문장만 출력."""
 
-PROMPT_KR = """너는 한국 증권사 PB다. 아래는 미래에셋증권 리서치의 시황 원문이다(장중 또는 장 마감 후 글일 수 있다).
+PROMPT_KR = """너는 한국 증권사 PB다. 아래는 증권사 리서치 텔레그램 글 원문이다(시황·채권·전략·업종 글이며 장중 또는 장 마감 후 글일 수 있다).
 이를 분석해 고객 카톡용 '투자 체크포인트'를 3~4문장으로 써라.
-순서: (1) 시장이 움직인 핵심 원인과 그 의미 (2) 강했던·약했던 업종이 주는 시사점 (3) 앞으로 확인할 변수나 대응 관점.
+순서: (1) 시장이 움직인 핵심 원인과 그 의미 (2) 투자자에게 주는 시사점(강했던·약했던 업종이나 자산이 있으면 함께) (3) 앞으로 확인할 변수나 대응 관점.
 규칙: 존댓말, 원문에 없는 숫자·사실은 쓰지 말 것, 숫자를 쓰면 원문 그대로, '어제·마감' 같은 시점 단정은 원문에 있을 때만,
 과장·단정·매수 권유 표현 금지, 제목·머리표·이모지 없이 문장만 출력."""
 
@@ -211,6 +223,8 @@ def make_draft(p, use_ai=True):
         prompt, rule = PROMPT_KR, draft_kr(t, True)
     elif "마켓 뷰" in title:
         prompt, rule = PROMPT_KR, draft_kr(t, False)
+    elif p.get("ch", MAIN) != MAIN and len(t) >= 300:
+        prompt, rule = PROMPT_KR, None
     elif p.get("cat") in ("한국", "중국", "한국·중국", "일본·대만", "미국") and len(t) >= 300:
         prompt, rule = PROMPT_KR, None
     else:
@@ -226,39 +240,53 @@ def make_draft(p, use_ai=True):
     return (rule, "rule") if rule else (None, None)
 
 
-def fetch(before=None):
-    url = f"https://t.me/s/{CHANNEL}" + (f"?before={before}" if before else "")
+def fetch(ch, before=None):
+    url = f"https://t.me/s/{ch}" + (f"?before={before}" if before else "")
     r = requests.get(url, headers=UA, timeout=30)
     r.raise_for_status()
-    return parse(r.text)
+    return parse(r.text, ch)
 
 
 def main():
-    old = []
+    old, meta = [], {}
     if os.path.exists(OUT):
         try:
-            old = json.load(open(OUT, encoding="utf-8")).get("posts", [])
+            j = json.load(open(OUT, encoding="utf-8"))
+            old, meta = j.get("posts", []), j.get("channels", {})
         except Exception:
-            old = []
-    pages = 1 if old else 4  # first run: backfill a few pages
-    got, before = [], None
-    for _ in range(pages):
-        batch = fetch(before)
-        if not batch:
-            break
-        got += batch
-        before = min(p["id"] for p in batch)
-    byid = {p["id"]: p for p in old}
-    new = len({p["id"] for p in got} - set(byid))
-    for p in got:
-        byid[p["id"]] = p  # newer scrape wins (edited posts)
-    posts = sorted((p for p in byid.values() if not p["title"].startswith("[샘플]")),
-                   key=lambda p: p["id"], reverse=True)[:MAX_KEEP]
-    prev = {p["id"]: p for p in old}
+            pass
+    for p in old:  # migrate single-channel data
+        p.setdefault("ch", MAIN)
+        p.setdefault("uid", f"{p['ch']}/{p['id']}")
+    for ch, info in meta.items():
+        CH_TITLE.setdefault(ch, info.get("title", ch))
+    byuid = {p["uid"]: p for p in old if not p["title"].startswith("[샘플]")}
+    new = 0
+    for ch, _ in CHANNELS:
+        have = any(p["ch"] == ch for p in old)
+        pages, before = (1 if have else 3), None
+        for _ in range(pages):
+            try:
+                batch = fetch(ch, before)
+            except Exception as e:
+                print("fetch fail", ch, e)
+                break
+            if not batch:
+                break
+            for p in batch:
+                new += p["uid"] not in byuid
+                byuid[p["uid"]] = p  # newer scrape wins (edited posts)
+            before = min(p["id"] for p in batch)
+    keep = []
+    for ch in {p["ch"] for p in byuid.values()}:
+        mine = sorted((p for p in byuid.values() if p["ch"] == ch), key=lambda p: p["id"], reverse=True)
+        keep += mine[:MAX_PER_CHANNEL]
+    posts = sorted(keep, key=lambda p: (p["time"] or "", p["id"]), reverse=True)
+    prev = {p["uid"]: p for p in old}
     has_key = bool(os.environ.get("GEMINI_API_KEY"))
-    budget = 6  # AI calls per run
+    budget = 8  # AI calls per run (newest first)
     for p in posts:
-        o = prev.get(p["id"], {})
+        o = prev.get(p["uid"], {})
         if o.get("draft_src") == "ai" or (o.get("draft_src") and not has_key):
             p["draft"], p["draft_src"] = o["draft"], o["draft_src"]
             continue
@@ -267,8 +295,9 @@ def main():
         if use_ai and src in ("ai", "rule"):
             budget -= 1
         p["draft"], p["draft_src"] = d, src
+    channels = {ch: dict(name=name, title=CH_TITLE.get(ch, ch)) for ch, name in CHANNELS}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump(dict(channel=CHANNEL, updated=dt.datetime.now(KST).isoformat(timespec="minutes"),
+    json.dump(dict(channels=channels, updated=dt.datetime.now(KST).isoformat(timespec="minutes"),
                    posts=posts), open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("posts", len(posts), "new", new)
 

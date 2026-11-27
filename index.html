@@ -19,6 +19,10 @@ header .hub{font-size:15px;color:#fff;font-weight:700;text-decoration:none;borde
 .top{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:8px 12px}
 .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}.chips button{flex:none;border:1px solid var(--line);background:#fff;border-radius:16px;padding:7px 14px;font-size:.88rem;cursor:pointer}
 .chips button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.chtabs{display:flex;flex-wrap:wrap;gap:6px;padding-bottom:8px}.chtabs button{flex:none;border:0;background:#eef2f8;color:var(--navy);border-radius:10px;padding:9px 14px;font-size:.95rem;font-weight:700;cursor:pointer}
+.chtabs button span{font-weight:400;opacity:.7;font-size:.82rem}.chtabs button.on{background:var(--acc);color:#fff}.chtabs button.on span{opacity:.9}
+.chips{margin-bottom:2px}.chinfo{font-size:.82rem;color:var(--sub);margin-top:4px}.chinfo:empty{display:none}.chinfo a{color:var(--navy)}
+.tag.ch{background:var(--navy);color:#fff}
 .stat{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--sub);margin-top:6px}
 .stat button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;font-size:.88rem;cursor:pointer}
 .newbar{display:none;background:var(--acc);color:#fff;text-align:center;padding:9px;border-radius:10px;margin:0 0 14px;font-weight:700;cursor:pointer}
@@ -49,11 +53,13 @@ pre.prev{white-space:pre-wrap;font-family:inherit;font-size:.85rem;background:#f
 </head>
 <body>
 <div class="hwrap"><header>
-  <h1><svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><path d="M43 7 4.5 22.2c-1.6.6-1.5 2.9.1 3.4l9.6 3 3.6 11.3c.5 1.5 2.4 1.9 3.4.8l5.4-5.5 10 7.4c1.2.9 3 .2 3.3-1.3L46 9.6C46.4 7.8 44.6 6.3 43 7Z" fill="#fff"/><path d="m18 30 20-15-16 18.5-.8 6.5z" fill="#9fc3ee"/></svg>미래에셋 텔레그램 시황 CHECK<small>[미래에셋증권 시황] 김석환·김주연 채널 실시간 모음 → 의견 붙여 카톡 공유</small></h1>
+  <h1><svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><path d="M43 7 4.5 22.2c-1.6.6-1.5 2.9.1 3.4l9.6 3 3.6 11.3c.5 1.5 2.4 1.9 3.4.8l5.4-5.5 10 7.4c1.2.9 3 .2 3.3-1.3L46 9.6C46.4 7.8 44.6 6.3 43 7Z" fill="#fff"/><path d="m18 30 20-15-16 18.5-.8 6.5z" fill="#9fc3ee"/></svg>미래에셋 텔레그램 시황 CHECK<small>미래에셋증권 리서치 텔레그램 채널 실시간 모음 → 의견 붙여 카톡 공유</small></h1>
   <a class="hub" href="https://bluelagoon1222.github.io/">SJ Market Desk ↗</a>
 </header></div>
 <div class="top">
+  <div class="chtabs" id="chtabs"></div>
   <div class="chips" id="chips"></div>
+  <div class="chinfo" id="chinfo"></div>
   <div class="stat"><span id="upd">불러오는 중…</span><button onclick="load(true)">🔄 새로고침</button></div>
 </div>
 <main>
@@ -75,8 +81,12 @@ pre.prev{white-space:pre-wrap;font-family:inherit;font-size:.85rem;background:#f
 
 <script>
 const CATS=['전체','미국','한국·중국','한국','중국','일본·대만','뉴스링크','기타'];
-const SRC='출처: 미래에셋증권 리서치 (김석환, 김주연)';
-let ALL=[],CAT='전체',SHOWN=0,PENDING=null,CUR=null;
+let ALL=[],CAT='전체',CH='전체',CHS={},SEEN=new Set(),PENDING=null,CUR=null;
+const MAIN='globalmktinsight';
+const K=p=>p.uid||('globalmktinsight/'+p.id);
+const EID=p=>K(p).replace(/\W/g,'_');
+const chName=p=>(CHS[p.ch||MAIN]||{}).name||p.ch;
+const SRC=p=>'출처: '+(((CHS[p.ch||MAIN]||{}).title)||'텔레그램 @'+(p.ch||MAIN));
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const brk=t=>String(t||'').trim().replace(/([.!?])\s+/g,'$1\n');
@@ -84,22 +94,29 @@ const WD=['일','월','화','수','목','금','토'];
 function when(iso){if(!iso)return'';const d=new Date(iso),n=new Date();const hm=d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});
   return d.toDateString()===n.toDateString()?'오늘 '+hm:`${d.getMonth()+1}/${d.getDate()}(${WD[d.getDay()]}) ${hm}`;}
 
-function chips(){$('#chips').innerHTML=CATS.map(c=>{const n=c==='전체'?ALL.length:ALL.filter(p=>p.cat===c).length;
-  return n||c==='전체'?`<button class="${c===CAT?'on':''}" onclick="CAT='${c}';render()">${c} ${n}</button>`:'';}).join('');}
+function chips(){
+  const chs=['전체',...Object.keys(CHS)];
+  $('#chtabs').innerHTML=chs.map(c=>{const n=c==='전체'?ALL.length:ALL.filter(p=>(p.ch||MAIN)===c).length;const nm=c==='전체'?'전체 채널':CHS[c].name;
+    return `<button class="${c===CH?'on':''}" onclick="CH='${c}';CAT='전체';render()">${esc(nm)} <span>${n}</span></button>`;}).join('');
+  const base=ALL.filter(p=>CH==='전체'||(p.ch||MAIN)===CH);
+  $('#chips').style.display=CH===MAIN?'flex':'none';
+  $('#chips').innerHTML=CATS.map(c=>{const n=c==='전체'?base.length:base.filter(p=>p.cat===c).length;
+  return n||c==='전체'?`<button class="${c===CAT?'on':''}" onclick="CAT='${c}';render()">${c} ${n}</button>`:'';}).join('');
+  const info=CHS[CH];$('#chinfo').innerHTML=info?`📨 <b>${esc(info.title)}</b> · <a href="https://t.me/${CH}" target="_blank" rel="noopener">t.me/${CH} ↗</a>`:'';}
 
 function render(){
   chips();
-  const arr=ALL.filter(p=>CAT==='전체'||p.cat===CAT).slice(0,80);
+  const arr=ALL.filter(p=>(CH==='전체'||(p.ch||MAIN)===CH)&&(CH!==MAIN||CAT==='전체'||p.cat===CAT)).slice(0,100);
   $('#list').innerHTML=arr.length?arr.map(p=>`<div class="card">
-    <div class="meta"><span class="tag ${esc(p.cat)}">${esc(p.cat)}</span><span>${when(p.time)}</span><a href="${esc(p.url)}" target="_blank" rel="noopener" style="margin-left:auto;color:#6b7280">텔레그램 ↗</a></div>
+    <div class="meta"><span class="tag ch">${esc(chName(p))}</span>${(p.ch||MAIN)===MAIN?`<span class="tag ${esc(p.cat)}">${esc(p.cat)}</span>`:''}<span>${when(p.time)}</span><a href="${esc(p.url)}" target="_blank" rel="noopener" style="margin-left:auto;color:#6b7280">텔레그램 ↗</a></div>
     <div class="t">${esc(p.title)}</div>
     ${p.photo?`<img class="photo" src="${esc(p.photo)}" loading="lazy" alt="">`:''}
-    <div class="body" id="b${p.id}">${esc(deco(p.text).split('\n').slice(1).join('\n').trim()).replace(/↑/g,'<span class="up">↑</span>').replace(/↓/g,'<span class="dn">↓</span>')}</div>
-    <button class="more" onclick="tog(${p.id},this)">펼치기 ▾</button>
+    <div class="body" id="b${EID(p)}">${esc(deco(p.text).split('\n').slice(1).join('\n').trim()).replace(/↑/g,'<span class="up">↑</span>').replace(/↓/g,'<span class="dn">↓</span>')}</div>
+    <button class="more" onclick="tog('${EID(p)}',this)">펼치기 ▾</button>
     ${p.docs.map(d=>`<div class="doc">📎 <a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(d.name)}</a></div>`).join('')}
     ${p.draft?`<div class="op"><b>${opT(p)}</b>${esc(brk(p.draft))}</div>`:''}
     <div class="kt">💬 카카오톡으로 보내기</div>
-    <div class="acts"><button class="a1" onclick="share(${p.id},1)">1️⃣ 시황만<small>원문 그대로</small></button><button class="a2" ${p.draft?'':'disabled'} onclick="share(${p.id},2)">2️⃣ 시황+의견<small>${p.draft?'위 초안 포함':'초안 없는 글'}</small></button><button class="a3" onclick="openOp(${p.id})">3️⃣ 직접 작성<small>수정·새로 쓰기</small></button></div>
+    <div class="acts"><button class="a1" onclick="share('${K(p)}',1)">1️⃣ 원문만<small>의견 없이</small></button><button class="a2" ${p.draft?'':'disabled'} onclick="share('${K(p)}',2)">2️⃣ 원문+의견<small>${p.draft?'위 초안 포함':'초안 없는 글'}</small></button><button class="a3" onclick="openOp('${K(p)}')">3️⃣ 직접 작성<small>수정·새로 쓰기</small></button></div>
   </div>`).join(''):'<div class="empty">글이 없습니다.</div>';
 }
 function tog(id,b){const e=$('#b'+id);e.classList.toggle('open');b.textContent=e.classList.contains('open')?'접기 ▴':'펼치기 ▾';}
@@ -107,12 +124,13 @@ function tog(id,b){const e=$('#b'+id);e.classList.toggle('open');b.textContent=e
 async function load(manual){
   try{const r=await fetch('data/posts.json?t='+Date.now());const d=await r.json();
     $('#upd').textContent=`마지막 수집 ${when(d.updated)} · 1분마다 자동 확인`;
-    if(!ALL.length||manual){ALL=d.posts;SHOWN=ALL[0]?.id||0;$('#newbar').style.display='none';render();if(manual)toast('최신 상태예요');return;}
-    const n=d.posts.filter(p=>p.id>SHOWN).length;
+    CHS=d.channels||{[MAIN]:{name:'시황',title:'[미래에셋증권 시황] 김석환, 김주연'}};
+    if(!ALL.length||manual){ALL=d.posts;SEEN=new Set(ALL.map(K));$('#newbar').style.display='none';render();if(manual)toast('최신 상태예요');return;}
+    const n=d.posts.filter(p=>!SEEN.has(K(p))).length;
     if(n){PENDING=d.posts;$('#newbar').textContent=`🆕 새 글 ${n}건 — 눌러서 보기`;$('#newbar').style.display='block';}
   }catch(e){$('#upd').textContent='데이터가 아직 없습니다. Actions에서 수집을 실행해 주세요.';}
 }
-function showNew(){if(!PENDING)return;ALL=PENDING;SHOWN=ALL[0].id;PENDING=null;$('#newbar').style.display='none';render();scrollTo(0,0);}
+function showNew(){if(!PENDING)return;ALL=PENDING;SEEN=new Set(ALL.map(K));PENDING=null;$('#newbar').style.display='none';render();scrollTo(0,0);}
 
 const NUM=/([+-]\d[\d,]*(?:\.\d+)?)\s*(%|bp|p\b|원|달러)/g;
 const HEAD=[[/^\*?\s*Key Indices/i,'📊'],[/^\*?\s*Key Takeaways/i,'💡'],[/^\*?\s*Key Stocks/i,'⭐'],[/^\*?\s*FICC/i,'💱'],
@@ -136,17 +154,17 @@ function deco(text){
 function build(p,op,title){
   let t=deco(p.text.trim());
   if(op&&op.trim())t+=`\n\n━━━━━━━━━━━━━━\n\n${title}\n\n${brk(op)}`;
-  return t+`\n\n${SRC}`;
+  return t+`\n\n${SRC(p)}`;
 }
 async function send(text){
   if(navigator.share&&/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){try{await navigator.share({text});return true;}catch(e){if(e.name==='AbortError')return false;}}
   try{await navigator.clipboard.writeText(text);}catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}
   toast('복사했어요. 카톡 대화방에 붙여넣기 하세요');return true;
 }
-function share(id,mode){const p=ALL.find(x=>x.id===id);send(build(p,mode===2?p.draft:'',opT(p)));}
+function share(id,mode){const p=ALL.find(x=>K(x)===id);send(build(p,mode===2?p.draft:'',opT(p)));}
 function opT(p){return /글로벌 마켓 브리핑/.test(p.title)?'🔎 오늘의 관전포인트!':'📋 투자 체크포인트';}
 const dlg=$('#dlg');
-function openOp(id){CUR=ALL.find(x=>x.id===id);$('#opTitle').value=opT(CUR);$('#myOp').value=CUR.draft||'';upd();dlg.showModal();}
+function openOp(id){CUR=ALL.find(x=>K(x)===id);$('#opTitle').value=opT(CUR);$('#myOp').value=CUR.draft||'';upd();dlg.showModal();}
 function upd(){if(CUR)$('#prev').textContent=build(CUR,$('#myOp').value,$('#opTitle').value);}
 $('#myOp').addEventListener('input',upd);$('#opTitle').addEventListener('change',upd);
 async function shareOp(){if(!$('#myOp').value.trim()){toast('의견을 입력해 주세요');return;}if(await send(build(CUR,$('#myOp').value,$('#opTitle').value)))dlg.close();}
