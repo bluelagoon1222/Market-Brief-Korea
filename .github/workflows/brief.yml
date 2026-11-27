@@ -2,8 +2,8 @@ name: Telegram Feed
 
 on:
   schedule:
-    - cron: "*/10 21-23 * * *"   # 06:00-08:59 KST
-    - cron: "*/10 0-14 * * *"    # 09:00-23:59 KST
+    - cron: "0 21-23 * * *"   # 06:00-08:59 KST
+    - cron: "0 0-14 * * *"    # 09:00-23:59 KST
   workflow_dispatch:
 
 permissions:
